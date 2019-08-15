@@ -20,7 +20,7 @@ export class DataStorageService {
     const ingredients = this.shoppingListService.getIngredients();
     this.http
       .put(
-        'https://ng-course-recipe-book-2ccd7.firebaseio.com/ingredients.json',
+        'https://ng-course-recipe-book-2ccd7.firebaseio.com/customers.json',
         ingredients
       )
       .subscribe(response => {
@@ -32,7 +32,7 @@ export class DataStorageService {
     const recipes = this.recipeService.getRecipes();
     this.http
       .put(
-        'https://ng-course-recipe-book-2ccd7.firebaseio.com/recipes.json',
+        'https://ng-course-recipe-book-2ccd7.firebaseio.com/documents.json',
         recipes
       )
       .subscribe(response => {
@@ -43,7 +43,7 @@ export class DataStorageService {
   fetchIngredients                                                                                                                                                                                                                                                                                                              () {
     return this.http
       .get<Ingredient[]>(
-        'https://ng-course-recipe-book-2ccd7.firebaseio.com/ingredients.json'
+        'https://ng-course-recipe-book-2ccd7.firebaseio.com/customers.json'
       )
       .pipe(
         map(ingredients => {
@@ -61,7 +61,7 @@ export class DataStorageService {
   fetchRecipes() {
     return this.http
       .get<Recipe[]>(
-        'https://ng-course-recipe-book-2ccd7.firebaseio.com/recipes.json'
+        'https://ng-course-recipe-book-2ccd7.firebaseio.com/documents.json'
       )
       .pipe(
         map(recipes => {

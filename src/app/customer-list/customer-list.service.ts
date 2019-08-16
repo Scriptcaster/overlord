@@ -1,7 +1,7 @@
 import { Ingredient } from '../shared/ingredient.model';
 import { Subject } from 'rxjs';
 
-export class ShoppingListService {
+export class CustomerListService {
   ingredientsChanged = new Subject<Ingredient[]>();
   startedEditing = new Subject<number>();
   private ingredients: Ingredient[] = [

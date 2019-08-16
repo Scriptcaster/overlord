@@ -1,24 +1,18 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ViewChild
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { Ingredient } from '../../shared/ingredient.model';
-import { ShoppingListService } from '../shopping-list.service';
+import { CustomerListService } from '../customer-list.service';
 
 import { DataStorageService } from '../../shared/data-storage.service';
 
 
 @Component({
-  selector: 'app-shopping-edit',
-  templateUrl: './shopping-edit.component.html',
-  styleUrls: ['./shopping-edit.component.css']
+  selector: 'app-customer-edit',
+  templateUrl: './customer-edit.component.html'
 })
-export class ShoppingEditComponent implements OnInit, OnDestroy {
+export class CustomerEditComponent implements OnInit, OnDestroy {
   @ViewChild('f', { static: false }) slForm: NgForm;
   subscription: Subscription;
   editMode = false;
@@ -26,7 +20,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   editedItem: Ingredient;
 
   constructor(
-    private slService: ShoppingListService,
+    private slService: CustomerListService,
     private dataStorageService: DataStorageService
   ) {}
 

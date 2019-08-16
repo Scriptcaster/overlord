@@ -3,19 +3,18 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { RecipeService } from '../recipe.service';
+import { RecipeService } from '../document.service';
 
 import { DataStorageService } from '../../shared/data-storage.service';
 
 import { Ingredient } from '../../shared/ingredient.model'; //dev
-import { ShoppingListService } from '../../shopping-list/shopping-list.service'; //dev
+import { CustomerListService } from '../../customer-list/customer-list.service'; //dev
 
 @Component({
-  selector: 'app-recipe-edit',
-  templateUrl: './recipe-edit.component.html',
-  styleUrls: ['./recipe-edit.component.css']
+  selector: 'app-document-edit',
+  templateUrl: './document-edit.component.html'
 })
-export class RecipeEditComponent implements OnInit {
+export class DocumentEditComponent implements OnInit {
   id: number;
   editMode = false;
   recipeForm: FormGroup;
@@ -28,7 +27,7 @@ export class RecipeEditComponent implements OnInit {
     private recipeService: RecipeService,
     private router: Router,
     private dataStorageService: DataStorageService,
-    private slService: ShoppingListService //dev
+    private slService: CustomerListService //dev
   ) {}
 
   ngOnInit() {

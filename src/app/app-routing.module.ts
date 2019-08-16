@@ -1,32 +1,26 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { RecipesComponent } from './recipes/recipes.component';
-import { ShoppingListComponent } from './shopping-list/shopping-list.component';
-import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
-import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
-import { RecipesResolverService } from './recipes/recipes-resolver.service';
+import { DocumentsComponent } from './documents/documents.component';
+import { CustomerListComponent } from './customer-list/customer-list.component';
+import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
+import { RecipesResolverService } from './documents/document-resolver.service';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/recipes', pathMatch: 'full' },
   {
     path: 'recipes',
-    component: RecipesComponent,
+    component: DocumentsComponent,
     children: [
-      { path: 'new', component: RecipeEditComponent },
+      { path: 'new', component: DocumentEditComponent },
       {
         path: ':id',
-        component: RecipeEditComponent,
+        component: DocumentEditComponent,
         resolve: [RecipesResolverService]
       },
-      {
-        path: ':id/edit',
-        component: RecipeDetailComponent,
-        resolve: [RecipesResolverService]
-      }
     ]
   },
-  { path: 'shopping-list', component: ShoppingListComponent }
+  { path: 'customer-list', component: CustomerListComponent }
 ];
 
 @NgModule({

@@ -2,22 +2,22 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
 
-import { Recipe } from '../recipes/recipe.model';
-import { RecipeService } from '../recipes/recipe.service';
+import { Recipe } from '../documents/document.model';
+import { RecipeService } from '../documents/document.service';
 
 import { Ingredient } from './ingredient.model';
-import { ShoppingListService } from '../shopping-list/shopping-list.service';
+import { CustomerListService } from '../customer-list/customer-list.service';
 
 @Injectable({ providedIn: 'root' })
 export class DataStorageService {
   constructor(
     private http: HttpClient, 
     private recipeService: RecipeService,
-    private shoppingListService: ShoppingListService
+    private customerListService: CustomerListService
   ) {}
 
   storeIngredients() {
-    const ingredients = this.shoppingListService.getIngredients();
+    const ingredients = this.customerListService.getIngredients();
     this.http
       .put(
         'https://ng-course-recipe-book-2ccd7.firebaseio.com/customers.json',
@@ -53,7 +53,7 @@ export class DataStorageService {
           });
         }),
         tap(ingredients => {
-          this.shoppingListService.setIngredients(ingredients);
+          this.customerListService.setIngredients(ingredients);
         })
       )
   }

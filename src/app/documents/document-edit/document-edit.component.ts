@@ -7,7 +7,7 @@ import { DocumentService } from '../document.service';
 
 import { DataStorageService } from '../../shared/data-storage.service';
 
-import { Ingredient } from '../../shared/ingredient.model';
+import { Customer } from '../../shared/customer.model';
 import { CustomerListService } from '../../customer-list/customer-list.service';
 
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
@@ -23,7 +23,7 @@ export class DocumentEditComponent implements OnInit {
   id: number;
   editMode = false;
   recipeForm: FormGroup;
-  ingredients: Ingredient[]; //dev
+  ingredients: Customer[]; //dev
   private subscription: Subscription; //dev
   docDefinition: any = [];
 
@@ -47,7 +47,7 @@ export class DocumentEditComponent implements OnInit {
       this.dataStorageService.fetchIngredients().subscribe(); //dev
       this.subscription = this.slService.ingredientsChanged
       .subscribe(
-        (ingredients: Ingredient[]) => {
+        (ingredients: Customer[]) => {
           this.ingredients = ingredients;
         }
       );

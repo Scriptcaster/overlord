@@ -1,4 +1,4 @@
-import { Ingredient } from '../shared/ingredient.model';
+import { Customer } from '../shared/customer.model';
 
 export class Document {
   public number: string;
@@ -6,7 +6,7 @@ export class Document {
   public attn: string;
   public customer: string; //dev
   public description: string;
-  public ingredients: Ingredient[];
+  public ingredients: Customer[];
 
   constructor(
     number: string, 
@@ -14,7 +14,7 @@ export class Document {
     attn: string, 
     customer: string, 
     description: string, 
-    ingredients: Ingredient[]) 
+    ingredients: Customer[]) 
     {
     this.number = number;
     this.date = date;

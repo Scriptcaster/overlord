@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { Ingredient } from '../shared/ingredient.model';
+import { Customer } from '../shared/customer.model';
 import { CustomerListService } from './customer-list.service';
 import { reduce } from 'rxjs/operators';
 
@@ -11,7 +11,7 @@ import { reduce } from 'rxjs/operators';
   styles: [``]
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
-  ingredients: Ingredient[];
+  ingredients: Customer[];
   private subscription: Subscription;
 
   constructor(private slService: CustomerListService) { }
@@ -20,7 +20,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     this.ingredients = this.slService.getIngredients();
     this.subscription = this.slService.ingredientsChanged
     .subscribe(
-      (ingredients: Ingredient[]) => {
+      (ingredients: Customer[]) => {
         this.ingredients = ingredients;
       }
     );

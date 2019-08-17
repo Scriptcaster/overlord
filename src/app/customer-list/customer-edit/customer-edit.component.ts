@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { Ingredient } from '../../shared/ingredient.model';
+import { Customer } from '../../shared/customer.model';
 import { CustomerListService } from '../customer-list.service';
 
 import { DataStorageService } from '../../shared/data-storage.service';
@@ -17,7 +17,7 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   editMode = false;
   editedItemIndex: number;
-  editedItem: Ingredient;
+  editedItem: Customer;
 
   constructor(
     private slService: CustomerListService,
@@ -42,7 +42,7 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
 
   onSubmit(form: NgForm) {
     const value = form.value;
-    const newIngredient = new Ingredient(value.attn, value.customer);
+    const newIngredient = new Customer(value.attn, value.customer);
     if (this.editMode) {
       this.slService.updateIngredient(this.editedItemIndex, newIngredient);
     } else {

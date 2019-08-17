@@ -5,7 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { Document } from '../documents/document.model';
 import { DocumentService } from '../documents/document.service';
 
-import { Ingredient } from './ingredient.model';
+import { Customer } from './customer.model';
 import { CustomerListService } from '../customer-list/customer-list.service';
 
 @Injectable({ providedIn: 'root' })
@@ -42,7 +42,7 @@ export class DataStorageService {
 
   fetchIngredients                                                                                                                                                                                                                                                                                                              () {
     return this.http
-      .get<Ingredient[]>(
+      .get<Customer[]>(
         'https://ng-oren.firebaseio.com/customers.json'
       )
       .pipe(

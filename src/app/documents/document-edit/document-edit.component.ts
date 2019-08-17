@@ -7,19 +7,17 @@ import { DocumentService } from '../document.service';
 
 import { DataStorageService } from '../../shared/data-storage.service';
 
-import { Ingredient } from '../../shared/ingredient.model'; //dev
-import { CustomerListService } from '../../customer-list/customer-list.service'; //dev
+import { Ingredient } from '../../shared/ingredient.model';
+import { CustomerListService } from '../../customer-list/customer-list.service';
 
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-import { Pdf } from './pdf';
 
 @Component({
   selector: 'app-document-edit',
-  templateUrl: './document-edit.component.html',
-  providers: [Pdf]  
+  templateUrl: './document-edit.component.html' 
 })
 export class DocumentEditComponent implements OnInit {
   id: number;
@@ -35,7 +33,6 @@ export class DocumentEditComponent implements OnInit {
     private router: Router,
     private dataStorageService: DataStorageService,
     private slService: CustomerListService, //dev
-    private pdf: Pdf
   ) {}
 
   form = new FormGroup({
@@ -47,7 +44,6 @@ export class DocumentEditComponent implements OnInit {
       this.id = +params['id'];
       this.editMode = params['id'] != null;
       this.initForm();
-      // this.ingredients = this.slService.getIngredients(); //dev
       this.dataStorageService.fetchIngredients().subscribe(); //dev
       this.subscription = this.slService.ingredientsChanged
       .subscribe(
@@ -59,6 +55,11 @@ export class DocumentEditComponent implements OnInit {
   }
 
   onSubmit() {
+    this.ingredients.forEach(element => {
+      if(element.attn === this.recipeForm.value.attn){
+        this.recipeForm.value.customer = element.customer;
+      }
+    });
     if (this.editMode) {
       this.recipeService.updateRecipe(this.id, this.recipeForm.value);
     } else {
@@ -71,8 +72,8 @@ export class DocumentEditComponent implements OnInit {
   onAddIngredient() {
     (<FormArray>this.recipeForm.get('ingredients')).push(
       new FormGroup({
-        name: new FormControl(null, Validators.required),
-        amount: new FormControl(null, [
+        attn: new FormControl(null, Validators.required),
+        customer: new FormControl(null, [
           Validators.required,
           Validators.pattern(/^[1-9]+[0-9]*$/)
         ])
@@ -107,7 +108,7 @@ export class DocumentEditComponent implements OnInit {
             'Email: jecchellc@yahoo.com',
             'Web: www.jecche.com'
             ]}, {type: 'none',  style: 'tableBody', ul: [
-            'document.getElementById("customer").value'
+              this.recipeForm.value.customer
           ]}]]}}]},
         {fontSize: 10, alignment: 'left', margin: [0, 10, 0, 0], table: { widths: ['*', '*', '*', '*'], body: [
           [{text: 'SUMMARY OF SERVICES', style: 'tableHeader', colSpan: 4}, {}, {}, {}],
@@ -191,8 +192,8 @@ export class DocumentEditComponent implements OnInit {
         for (let ingredient of recipe.ingredients) {
           recipeIngredients.push(
             new FormGroup({
-              name: new FormControl(ingredient.name, Validators.required),
-              amount: new FormControl(ingredient.amount, [
+              attn: new FormControl(ingredient.attn, Validators.required),
+              customer: new FormControl(ingredient.customer, [
                 Validators.required,
                 Validators.pattern(/^[1-9]+[0-9]*$/)
               ])

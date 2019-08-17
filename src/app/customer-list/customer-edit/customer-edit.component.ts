@@ -33,8 +33,8 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
         this.editMode = true;
         this.editedItem = this.slService.getIngredient(index);
         this.slForm.setValue({
-          name: this.editedItem.name,
-          amount: this.editedItem.amount
+          attn: this.editedItem.attn,
+          customer: this.editedItem.customer
         })
       }
     );
@@ -42,7 +42,7 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
 
   onSubmit(form: NgForm) {
     const value = form.value;
-    const newIngredient = new Ingredient(value.name, value.amount);
+    const newIngredient = new Ingredient(value.attn, value.customer);
     if (this.editMode) {
       this.slService.updateIngredient(this.editedItemIndex, newIngredient);
     } else {

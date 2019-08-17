@@ -8,11 +8,7 @@ import { reduce } from 'rxjs/operators';
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
-  styles: [`
-    .col-xs-10 {
-      color: red;
-    }
-  `]
+  styles: [``]
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
   ingredients: Ingredient[];

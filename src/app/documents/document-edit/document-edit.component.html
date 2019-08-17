@@ -1,45 +1,25 @@
 <div class="row">
   <div class="col-xs-12">
-
-
-    <!-- <form [formGroup]="form">
-      <input type="radio" formControlName="food" value="beef" > Beef
-      <input type="radio" formControlName="food" value="lamb"> Lamb
-      <input type="radio" formControlName="food" value="fish"> Fish
-    </form>
-    <p>Form value: {{ form.value | json }}</p>  -->
-
-    <div class="form-group text-center" [formGroup]="form">
-      <!-- <div class="btn-group" data-toggle="buttons" class="col-lg-3 col-lg-offset-10"> -->
-        <!-- <label class="btn btn-default"> -->
-        <input type="radio" value="Estimate" formControlName="documentType">Estimate
-        <!-- <label class="btn btn-default"> -->
-        <input type="radio" value="Invoice" formControlName="documentType" checked>Invoice
-        <!-- <label class="btn btn-default"> -->
-        <input type="radio" value="Contract" formControlName="documentType">Contract
-      <!-- </div> -->
-    </div>
-    <p>Form value: {{ form.value | json }}</p>
-    
-    <!-- <div class="col-xs-12 btn-group">
-        <button type="button" class="btn btn-primary" (click)="generateEstimate()">Estimate</button>
-        <button type="button" class="btn btn-primary" (click)="generateEstimate()">Contact</button>
-        <button type="button" class="btn btn-primary" (click)="generateEstimate()">Invoice</button>
-    </div> -->
-
     <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
       <div class="row">
-        <div class="col-xs-12 btn-group">
-          <button
-            type="submit"
-            class="btn btn-success"
-            [disabled]="!recipeForm.valid">Save</button>
-          <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
-        </div>
         <div class="col-xs-12">
-            <button type="button" class="btn btn-primary" (click)="generatePdf()">Generate PDF</button>
+          <div class="btn-group">
+            <button type="submit" class="btn btn-success">Save</button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+          </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-xs-12">
+            <div class="form-group" [formGroup]="form">
+              <input type="radio" value="Estimate" formControlName="documentType">Estimate
+              <input type="radio" value="Invoice" formControlName="documentType" checked>Invoice
+              <input type="radio" value="Contract" formControlName="documentType">Contract
+          </div>
+          <button type="button" class="btn btn-primary" (click)="generatePdf()">Generate PDF</button>
+        </div>
+      </div>
+      <hr>
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
@@ -62,7 +42,7 @@
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <img [src]="date.value" class="img-responsive">
+          <!-- <img [src]="date.value" class="img-responsive"> -->
         </div>
       </div>  
       <div class="row">
@@ -72,7 +52,7 @@
             <div>
               <select class="form-control" formControlName="attn" #attn>
                 <option value="">Choose a customer</option>
-                <option *ngFor="let ingredient of ingredients; let i = index" [value]="ingredient.name">{{ ingredient.name }}</option>
+                <option *ngFor="let ingredient of ingredients; let i = index" [value]="ingredient.attn">{{ ingredient.attn }}</option>
               </select>
             </div>
           </div>
@@ -84,7 +64,7 @@
           <div class="form-group">
             <label for="description">Customer Information</label>
             <div *ngFor="let ingredient of ingredients; let i = index">
-              <textarea class="form-control" formControlName="customer" *ngIf="ingredient.name === attn.value" [value]="ingredient.amount"></textarea>
+              <textarea class="form-control" formControlName="customer" *ngIf="ingredient.attn === attn.value" [value]="ingredient.customer"></textarea>
             </div>
           </div>
         </div>
@@ -115,13 +95,13 @@
               <input
                 type="text"
                 class="form-control"
-                formControlName="name">
+                formControlName="attn">
             </div>
             <div class="col-xs-2">
               <input
-                type="number"
+                type="text"
                 class="form-control"
-                formControlName="amount">
+                formControlName="customer">
             </div>
             <div class="col-xs-2">
               <button
@@ -130,7 +110,7 @@
                 (click)="onDeleteIngredient(i)">X</button>
             </div>
           </div>
-          <hr>
+          <!-- <hr>
           <div class="row">
             <div class="col-xs-12">
               <button
@@ -138,7 +118,7 @@
                 class="btn btn-success"
                 (click)="onAddIngredient()">Add Ingredient</button>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </form>

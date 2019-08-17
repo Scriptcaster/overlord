@@ -1,24 +1,53 @@
 <div class="row">
   <div class="col-xs-12">
 
+
+    <!-- <form [formGroup]="form">
+      <input type="radio" formControlName="food" value="beef" > Beef
+      <input type="radio" formControlName="food" value="lamb"> Lamb
+      <input type="radio" formControlName="food" value="fish"> Fish
+    </form>
+    <p>Form value: {{ form.value | json }}</p>  -->
+
+    <div class="form-group text-center" [formGroup]="form">
+      <!-- <div class="btn-group" data-toggle="buttons" class="col-lg-3 col-lg-offset-10"> -->
+        <!-- <label class="btn btn-default"> -->
+        <input type="radio" value="Estimate" formControlName="documentType">Estimate
+        <!-- <label class="btn btn-default"> -->
+        <input type="radio" value="Invoice" formControlName="documentType" checked>Invoice
+        <!-- <label class="btn btn-default"> -->
+        <input type="radio" value="Contract" formControlName="documentType">Contract
+      <!-- </div> -->
+    </div>
+    <p>Form value: {{ form.value | json }}</p>
+    
+    <!-- <div class="col-xs-12 btn-group">
+        <button type="button" class="btn btn-primary" (click)="generateEstimate()">Estimate</button>
+        <button type="button" class="btn btn-primary" (click)="generateEstimate()">Contact</button>
+        <button type="button" class="btn btn-primary" (click)="generateEstimate()">Invoice</button>
+    </div> -->
+
     <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-12 btn-group">
           <button
             type="submit"
             class="btn btn-success"
             [disabled]="!recipeForm.valid">Save</button>
           <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
         </div>
+        <div class="col-xs-12">
+            <button type="button" class="btn btn-primary" (click)="generatePdf()">Generate PDF</button>
+        </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="name">Number</label>
+            <label for="number">Number</label>
             <input
               type="text"
-              id="name"
-              formControlName="name"
+              id="number"
+              formControlName="number"
               class="form-control">
           </div>
         </div>
@@ -26,14 +55,14 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="imagePath">Date</label>
-            <input type="text" id="imagePath" formControlName="imagePath" class="form-control" #imagePath>
+            <label for="date">Date</label>
+            <input type="text" id="date" formControlName="date" class="form-control" #date>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <img [src]="imagePath.value" class="img-responsive">
+          <img [src]="date.value" class="img-responsive">
         </div>
       </div>  
       <div class="row">

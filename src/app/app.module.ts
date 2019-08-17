@@ -14,7 +14,7 @@ import { DropdownDirective } from './shared/dropdown.directive';
 import { CustomerListService } from './customer-list/customer-list.service';
 import { AppRoutingModule } from './app-routing.module';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
-import { RecipeService } from './documents/document.service';
+import { DocumentService } from './documents/document.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import { RecipeService } from './documents/document.service';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [CustomerListService, RecipeService],
+  providers: [CustomerListService, DocumentService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

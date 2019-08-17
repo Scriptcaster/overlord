@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { Recipe } from './document.model';
+import { Document } from './document.model';
 import { Ingredient } from '../shared/ingredient.model';
 import { CustomerListService } from '../customer-list/customer-list.service';
 
 @Injectable()
-export class RecipeService {
-  recipesChanged = new Subject<Recipe[]>();
+export class DocumentService {
+  recipesChanged = new Subject<Document[]>();
 
   // private recipes: Recipe[] = [
   //   new Recipe(
@@ -23,11 +23,11 @@ export class RecipeService {
   //     [new Ingredient('Buns', 2), new Ingredient('Meat', 1)]
   //   )
   // ];
-  private recipes: Recipe[] = [];
+  private recipes: Document[] = [];
 
   constructor(private slService: CustomerListService) {}
 
-  setRecipes(recipes: Recipe[]) {
+  setRecipes(recipes: Document[]) {
     this.recipes = recipes;
     this.recipesChanged.next(this.recipes.slice());
   }
@@ -44,12 +44,12 @@ export class RecipeService {
     this.slService.addIngredients(ingredients);
   }
 
-  addRecipe(recipe: Recipe) {
+  addRecipe(recipe: Document) {
     this.recipes.push(recipe);
     this.recipesChanged.next(this.recipes.slice());
   }
 
-  updateRecipe(index: number, newRecipe: Recipe) {
+  updateRecipe(index: number, newRecipe: Document) {
     this.recipes[index] = newRecipe;
     this.recipesChanged.next(this.recipes.slice());
   }

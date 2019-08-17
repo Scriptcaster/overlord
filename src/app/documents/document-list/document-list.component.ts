@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { Recipe } from '../document.model';
-import { RecipeService } from '../document.service';
+import { Document } from '../document.model';
+import { DocumentService } from '../document.service';
 import { DataStorageService } from '../../shared/data-storage.service';
 
 @Component({
@@ -11,11 +11,11 @@ import { DataStorageService } from '../../shared/data-storage.service';
   templateUrl: './document-list.component.html'
 })
 export class DocumentListComponent implements OnInit, OnDestroy {
-  recipes: Recipe[];
+  recipes: Document[];
   subscription: Subscription;
 
   constructor(
-    private recipeService: RecipeService,
+    private recipeService: DocumentService,
     private router: Router,
     private route: ActivatedRoute,
     private dataStorageService: DataStorageService
@@ -26,7 +26,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     this.dataStorageService.fetchRecipes().subscribe();
     this.subscription = this.recipeService.recipesChanged
       .subscribe(
-        (recipes: Recipe[]) => {
+        (recipes: Document[]) => {
           this.recipes = recipes;
         }
       );

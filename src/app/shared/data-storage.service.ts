@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
 
-import { Recipe } from '../documents/document.model';
-import { RecipeService } from '../documents/document.service';
+import { Document } from '../documents/document.model';
+import { DocumentService } from '../documents/document.service';
 
 import { Ingredient } from './ingredient.model';
 import { CustomerListService } from '../customer-list/customer-list.service';
@@ -12,7 +12,7 @@ import { CustomerListService } from '../customer-list/customer-list.service';
 export class DataStorageService {
   constructor(
     private http: HttpClient, 
-    private recipeService: RecipeService,
+    private recipeService: DocumentService,
     private customerListService: CustomerListService
   ) {}
 
@@ -60,7 +60,7 @@ export class DataStorageService {
 
   fetchRecipes() {
     return this.http
-      .get<Recipe[]>(
+      .get<Document[]>(
         'https://ng-course-recipe-book-2ccd7.firebaseio.com/documents.json'
       )
       .pipe(

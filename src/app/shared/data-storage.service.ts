@@ -16,8 +16,8 @@ export class DataStorageService {
     private customerListService: CustomerListService
   ) {}
 
-  storeIngredients() {
-    const ingredients = this.customerListService.getIngredients();
+  storeCustomers() {
+    const ingredients = this.customerListService.getCustomers();
     this.http
       .put(
         'https://ng-oren.firebaseio.com/customers.json',
@@ -28,8 +28,8 @@ export class DataStorageService {
       });
   }
 
-  storeRecipes() {
-    const recipes = this.recipeService.getRecipes();
+  storeDocuments() {
+    const recipes = this.recipeService.getDocuments();
     this.http
       .put(
         'https://ng-oren.firebaseio.com/documents.json',
@@ -40,7 +40,7 @@ export class DataStorageService {
       });
   }
 
-  fetchIngredients                                                                                                                                                                                                                                                                                                              () {
+  fetchCustomers                                                                                                                                                                                                                                                                                                              () {
     return this.http
       .get<Customer[]>(
         'https://ng-oren.firebaseio.com/customers.json'
@@ -58,7 +58,7 @@ export class DataStorageService {
       )
   }
 
-  fetchRecipes() {
+  fetchDocuments() {
     return this.http
       .get<Document[]>(
         'https://ng-oren.firebaseio.com/documents.json'
@@ -73,7 +73,7 @@ export class DataStorageService {
           });
         }),
         tap(recipes => {
-          this.recipeService.setRecipes(recipes);
+          this.recipeService.setDocuments(recipes);
         })
       )
   }

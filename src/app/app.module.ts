@@ -10,7 +10,6 @@ import { DocumentListComponent } from './documents/document-list/document-list.c
 import { DocumentItemComponent } from './documents/document-list/document-item/document-item.component';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerEditComponent } from './customer-list/customer-edit/customer-edit.component';
-import { DropdownDirective } from './shared/dropdown.directive';
 import { CustomerListService } from './customer-list/customer-list.service';
 import { AppRoutingModule } from './app-routing.module';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
@@ -25,7 +24,6 @@ import { DocumentService } from './documents/document.service';
     DocumentItemComponent,
     CustomerListComponent,
     CustomerEditComponent,
-    DropdownDirective,
     DocumentEditComponent
   ],
   imports: [

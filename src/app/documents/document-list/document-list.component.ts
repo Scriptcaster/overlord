@@ -23,14 +23,14 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.dataStorageService.fetchRecipes().subscribe();
-    this.subscription = this.recipeService.recipesChanged
+    this.dataStorageService.fetchDocuments().subscribe();
+    this.subscription = this.recipeService.documentsChanged
       .subscribe(
         (recipes: Document[]) => {
           this.recipes = recipes;
         }
       );
-    this.recipes = this.recipeService.getRecipes();
+    this.recipes = this.recipeService.getDocuments();
   }
 
   onNewRecipe() {

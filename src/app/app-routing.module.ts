@@ -4,23 +4,23 @@ import { Routes, RouterModule } from '@angular/router';
 import { DocumentsComponent } from './documents/documents.component';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
-import { RecipesResolverService } from './documents/document-resolver.service';
+import { DocumentsResolverService } from './documents/document-resolver.service';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/recipes', pathMatch: 'full' },
+  { path: '', redirectTo: '/documents', pathMatch: 'full' },
   {
-    path: 'recipes',
+    path: 'documents',
     component: DocumentsComponent,
     children: [
       { path: 'new', component: DocumentEditComponent },
       {
         path: ':id',
         component: DocumentEditComponent,
-        resolve: [RecipesResolverService]
+        resolve: [DocumentsResolverService]
       },
     ]
   },
-  { path: 'customer-list', component: CustomerListComponent }
+  { path: 'customers', component: CustomerListComponent }
 ];
 
 @NgModule({

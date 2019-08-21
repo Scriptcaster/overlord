@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs';
 
 import { Customer } from '../shared/customer.model';
 import { CustomerListService } from './customer-list.service';
-import { reduce } from 'rxjs/operators';
 
 @Component({
   selector: 'app-customer-list',
@@ -14,12 +13,11 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   ingredients: Customer[];
   private subscription: Subscription;
 
-  constructor(private slService: CustomerListService) { }
+  constructor(private customerListService: CustomerListService) { }
 
   ngOnInit() {
-    this.ingredients = this.slService.getIngredients();
-    this.subscription = this.slService.ingredientsChanged
-    .subscribe(
+    this.ingredients = this.customerListService.getCustomers();
+    this.subscription = this.customerListService.itemsChanged.subscribe(
       (ingredients: Customer[]) => {
         this.ingredients = ingredients;
       }
@@ -27,7 +25,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   onEditItem(index: number) {
-    this.slService.startedEditing.next(index);
+    this.customerListService.startedEditing.next(index);
   }
 
   ngOnDestroy() {

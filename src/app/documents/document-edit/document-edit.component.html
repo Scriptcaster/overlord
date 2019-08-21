@@ -1,34 +1,86 @@
 <div class="row">
   <div class="col-xs-12">
-    <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="documentForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-xs-12">
           <div class="btn-group">
             <button type="submit" class="btn btn-success">Save</button>
-            <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="onCancel()">Cancel</button>
+            <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
           </div>
         </div>
       </div>
+
       <div class="row">
         <div class="col-xs-12">
-            <div class="form-group" [formGroup]="form">
-              <input type="radio" value="Estimate" formControlName="documentType">Estimate
-              <input type="radio" value="Invoice" formControlName="documentType" checked>Invoice
-              <input type="radio" value="Contract" formControlName="documentType">Contract
+          <div class="form-group" [formGroup]="form">
+            <input type="radio" value="Estimate" formControlName="documentType">Estimate
+            <input type="radio" value="Invoice" formControlName="documentType">Invoice
+            <input type="radio" value="Contract" formControlName="documentType">Contract
           </div>
           <button type="button" class="btn btn-primary" (click)="generatePdf()">Generate PDF</button>
         </div>
       </div>
+
       <hr>
+
+      <!-- <div class="row">
+        <div class="col-xs-3" formArrayName="cities"> -->
+          <!-- <div class="form-group">
+              <label>Gludio</label>
+            <input type="gludio" formControlName="gludio">
+          </div>
+          <div class="form-group">
+              <label>Gludin</label>
+            <input type="checkbox" formControlName="gludin">
+          </div>
+          <div class="form-group">
+              <label>Giran</label>
+            <input type="checkbox" formControlName="giran">
+          </div> -->
+          <!-- <div *ngFor="let city of cities let i = index" (click)="onSelect(i)">
+            <input type="checkbox" [checked]="city.value" formControlName="giran">
+            <label for="number">{{city.name}}</label>
+          </div> -->
+        <!-- </div>
+      </div> -->
+
+
+      
+
+      <!-- <div class="row">
+        <div class="col-xs-12" formControlName=="services">
+          <div class="row" *ngFor="let service of services; let i = index" [formGroupName]="i">
+              <input type="text" class="form-control" formControlName="name">
+              <label>{{service.value.name}}</label>
+              <input type="checkbox" class="form-control" formControlName="value">
+          </div>
+              <button type="button"class="btn btn-success" (click)="onAddCity()">Add City</button>
+        </div>
+      </div> -->
+
+      <!-- <div class="row" *ngFor="let service of services; let i = index">
+           {{service.value}}
+      </div> -->
+
+      <div class="row">
+          <div class="col-xs-3" *ngFor="let service of services; let i = index">
+            <div class="form-group">
+              <input type="checkbox" [checked]="service.value" formControlName="{{service.name}}">
+              <label>{{service.name}}</label>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
             <label for="number">Number</label>
-            <input
-              type="text"
-              id="number"
-              formControlName="number"
-              class="form-control">
+            <input type="text" id="number" formControlName="number" class="form-control">
           </div>
         </div>
       </div>
@@ -36,7 +88,7 @@
         <div class="col-xs-12">
           <div class="form-group">
             <label for="date">Date</label>
-            <input type="text" id="date" formControlName="date" class="form-control" #date>
+            <input type="text" id="date" formControlName="date" class="form-control">
           </div>
         </div>
       </div>
@@ -48,11 +100,11 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="description">Choose Customer</label>
+            <label for="attn">Choose Customer</label>
             <div>
               <select class="form-control" formControlName="attn" #attn>
                 <option value="">Choose a customer</option>
-                <option *ngFor="let ingredient of ingredients; let i = index" [value]="ingredient.attn">{{ ingredient.attn }}</option>
+                <option *ngFor="let item of items; let i = index" [value]="item.attn">{{ item.attn }}</option>
               </select>
             </div>
           </div>
@@ -62,11 +114,89 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="description">Customer Information</label>
-            <div *ngFor="let ingredient of ingredients; let i = index">
-              <textarea class="form-control" formControlName="customer" *ngIf="ingredient.attn === attn.value" [value]="ingredient.customer"></textarea>
+            <label for="customer">Customer Information</label>
+            <div *ngFor="let item of items; let i = index">
+              <textarea class="form-control" formControlName="customer" *ngIf="item.attn === attn.value" [value]="item.customer"></textarea>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="worksite">Worksite</label>
+            <textarea type="text" id="worksite" formControlName="worksite" class="form-control"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <label>Summary of services:</label>
+
+          <div class="row">
+            <div class="col-xs-3">
+              <div class="form-group">
+                <input type="checkbox">
+                <label>General Welding</label>
+              </div>
+              <div class="form-group">
+                <input type="checkbox">
+                <label>General Repair</label>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" formControlName="basementDoor">
+                <label>Basement Door</label>
+              </div>
+            </div>
+
+            <div class="col-xs-3">
+              <div class="form-group">
+                <input type="checkbox" formControlName="fireEscapes">
+                <label>Fire Escapes</label>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" formControlName="awnings">
+                <label>Awnings</label>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" formControlName="railings">
+                <label>Railings</label>
+              </div>
+            </div>
+
+            <div class="col-xs-3">
+              <div class="form-group">
+                <input type="checkbox" formControlName="fences">
+                <label>Fences</label>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" formControlName="stairs">
+                <label>Stairs</label>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" formControlName="gates">
+                <label>Gates</label>
+              </div>
+            </div>
+
+            <div class="col-xs-3">
+              <div class="form-group">
+                <input type="checkbox" formControlName="securityDoor">
+                <label>Security Door</label>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" formControlName="windowGuards">
+                <label>Window Guards</label>
+              </div>
+              <div class="form-group">
+                <input type="checkbox" formControlName="otherServices">
+                <label>Other Services</label>
+              </div>
+            </div>
+          </div>
+          
         </div>
       </div>
       
@@ -74,53 +204,59 @@
         <div class="col-xs-12">
           <div class="form-group">
             <label for="description">Description</label>
-            <textarea
-              type="text"
-              id="description"
-              class="form-control"
-              formControlName="description"
-              rows="6"></textarea>
+            <textarea type="text" id="description" class="form-control" formControlName="description" rows="6"></textarea>
           </div>
         </div>
       </div>
-      
+
       <div class="row">
-        <div class="col-xs-12" formArrayName="ingredients">
-          <div
-            class="row"
-            *ngFor="let ingredientCtrl of recipeForm.get('ingredients').controls; let i = index"
-            [formGroupName]="i"
-            style="margin-top: 10px;">
-            <div class="col-xs-8">
-              <input
-                type="text"
-                class="form-control"
-                formControlName="attn">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="description">Note</label>
+            <input type="text" id="note" class="form-control" formControlName="note">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="description">Price</label>
+            <input type="number" id="note" class="form-control" formControlName="price">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <input type="checkbox" formControlName="tax">
+            <label>Tax Included</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12" formArrayName="things">
+          <div class="row" *ngFor="let thing of documentForm.get('things').controls; let i = index" [formGroupName]="i" style="margin-top: 10px;">
+            <div class="col-xs-10">
+              <input type="text" class="form-control" formControlName="aden">
             </div>
             <div class="col-xs-2">
-              <input
-                type="text"
-                class="form-control"
-                formControlName="customer">
-            </div>
-            <div class="col-xs-2">
-              <button
-                type="button"
-                class="btn btn-danger"
-                (click)="onDeleteIngredient(i)">X</button>
+              <button type="button" class="btn btn-danger" (click)="onDeleteThing(i)">X</button>
             </div>
           </div>
-          <!-- <hr>
+          <hr>
           <div class="row">
             <div class="col-xs-12">
-              <button
-                type="button"
-                class="btn btn-success"
-                (click)="onAddIngredient()">Add Ingredient</button>
+              <button type="button"class="btn btn-success" (click)="onAddThing()">Add Thing</button>
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
+
+      
+
     </form>
   </div>
 </div>

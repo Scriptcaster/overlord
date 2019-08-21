@@ -10,10 +10,10 @@ export class HeaderComponent {
   constructor(private dataStorageService: DataStorageService) {}
 
   onSaveData() {
-    this.dataStorageService.storeRecipes();
+    this.dataStorageService.storeDocuments();
   }
 
   onFetchData() {
-    this.dataStorageService.fetchRecipes().subscribe();
+    this.dataStorageService.fetchDocuments().subscribe();
   }
 }

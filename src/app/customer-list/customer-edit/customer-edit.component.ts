@@ -20,18 +20,18 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
   editedItem: Customer;
 
   constructor(
-    private slService: CustomerListService,
+    private costomerListService: CustomerListService,
     private dataStorageService: DataStorageService
   ) {}
 
   ngOnInit() {
-    this.dataStorageService.fetchIngredients().subscribe();
-    this.subscription = this.slService.startedEditing
+    this.dataStorageService.fetchCustomers().subscribe();
+    this.subscription = this.costomerListService.startedEditing
     .subscribe(
       (index: number) => {
         this.editedItemIndex = index;
         this.editMode = true;
-        this.editedItem = this.slService.getIngredient(index);
+        this.editedItem = this.costomerListService.getCustomer(index);
         this.slForm.setValue({
           attn: this.editedItem.attn,
           customer: this.editedItem.customer
@@ -44,11 +44,11 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
     const value = form.value;
     const newIngredient = new Customer(value.attn, value.customer);
     if (this.editMode) {
-      this.slService.updateIngredient(this.editedItemIndex, newIngredient);
+      this.costomerListService.updateIngredient(this.editedItemIndex, newIngredient);
     } else {
-      this.slService.addIngredient(newIngredient);
+      this.costomerListService.addIngredient(newIngredient);
     }
-    this.dataStorageService.storeIngredients();
+    this.dataStorageService.storeCustomers();
     this.editMode = false;
     form.reset();
   }
@@ -59,8 +59,9 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.slService.deleteIngredient(this.editedItemIndex);
+    this.costomerListService.deleteIngredient(this.editedItemIndex);
     this.onClear();
+    this.dataStorageService.storeCustomers();
   }
 
   ngOnDestroy() {

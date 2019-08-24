@@ -21,6 +21,7 @@
     "@angular/router": "^8.0.0",
     "bootstrap": "3.3.7",
     "core-js": "^3.1.2",
+    "lodash": "^4.17.15",
     "pdfmake": "^0.1.58",
     "rxjs": "^6.0.0",
     "tslib": "^1.9.0",

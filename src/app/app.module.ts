@@ -14,6 +14,7 @@ import { CustomerListService } from './customer-list/customer-list.service';
 import { AppRoutingModule } from './app-routing.module';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
 import { DocumentService } from './documents/document.service';
+import { CustomPipe } from './documents/document-edit/custom.pipe';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { DocumentService } from './documents/document.service';
     DocumentItemComponent,
     CustomerListComponent,
     CustomerEditComponent,
-    DocumentEditComponent
+    DocumentEditComponent,
+    CustomPipe
   ],
   imports: [
     BrowserModule,

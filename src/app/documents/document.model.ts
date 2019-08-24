@@ -1,6 +1,6 @@
 import { Customer } from '../shared/customer.model';
 import { Thing } from '../shared/thing.model';
-import { Service } from '../shared/city.model';
+// import { Service } from '../shared/service.model';
 
 export class Document {
   public number: string;
@@ -35,8 +35,8 @@ export class Document {
   public things: Thing[];
   public aden: string;
 
-  public services: Service[];
-  // public name: boolean;
+  public services: any
+  // public name: string;
 
   constructor(
     number: string, 
@@ -70,10 +70,7 @@ export class Document {
     things: [],
     aden: string,
 
-    
-    cities: [],
-    services: [],
-    // giran: boolean
+    // services: [],
 
     )  {
     this.number = number;
@@ -107,7 +104,6 @@ export class Document {
     this.things = things;
     this.aden = aden;
 
-    this.services = services;
-    // this.giran = giran;
+    // this.services = services;
   }
 }

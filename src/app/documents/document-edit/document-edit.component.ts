@@ -45,13 +45,10 @@ export class DocumentEditComponent implements OnInit {
     {name: 'fireEscapes', value: false},
     {name: 'fences', value: false},
     {name: 'securityDoor', value: false},
-    
     {name: 'generalRepair', value: false},
     {name: 'awnings', value: false},
     {name: 'stairs', value: false},
     {name: 'windowGuards', value: false},
-
-
     {name: 'basementDoor', value: false},
     {name: 'railings', value: false},
     {name: 'gates', value: false},
@@ -194,7 +191,6 @@ export class DocumentEditComponent implements OnInit {
         otherServices: new FormControl(documentOtherServices, Validators.required),
       }),
        
-
       description: new FormControl(documentDescription, Validators.required),
       note: new FormControl(documentNote, Validators.required),
       price: new FormControl(documentPrice, Validators.required),
@@ -203,35 +199,9 @@ export class DocumentEditComponent implements OnInit {
       things: documentThings
     });
 
-   
-    
   }
 
   generatePdf() {
-    const services = [
-      {name: 'generalWelding', value: 'circle'},
-      {name: 'generalRepair', value: 'circle'},
-      {name: 'basementDoor', value: 'circle'},
-      {name: 'fireEscapes', value: 'circle'},
-      {name: 'awnings', value: 'circle'},
-      {name: 'railins', value: 'circle'},
-      {name: 'fences', value: 'circle'},
-      {name: 'stairs', value: 'circle'},
-      {name: 'gates', value: 'circle'},
-      {name: 'securityDoo', value: 'circle'},
-      {name: 'sindowGuards', value: 'circle'},
-      {name: 'otherServices', value: 'circle'}
-    ];
-
-    const obj = this.documentForm.value.services;
-    const result = Object.keys(obj).map(function(key) {
-      return [String(key), obj[key]];
-    });
-    result.forEach((name, index) => {
-      if (name[1]) { 
-        services[index].value = 'dot';
-      }
-    });
 
     function formatNumber(num) {
       return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
@@ -273,21 +243,21 @@ export class DocumentEditComponent implements OnInit {
       {fontSize: 10, alignment: 'left', margin: [0, 10, 0, 0], table: { widths: ['*', '*', '*', '*'], body: [
         [{text: 'SUMMARY OF SERVICES', style: 'tableHeader', colSpan: 4}, {}, {}, {}],
         [{ul: [
-            {text: 'General Welding', listType: services[0].value},
-            {text: 'General Repair', listType: services[1].value},
-            {text: 'Basement Door', listType: services[2].value},
-          ]}, {ul: [
-            {text: 'Fire Escapes', listType: services[3].value},
-            {text: 'Awnings', listType: services[4].value},
-            {text: 'Railings', listType: services[5].value}
-          ]}, {ul: [
-            {text: 'Fences', listType: services[6].value},
-            {text: 'Stairs', listType: services[7].value},
-            {text: 'Gates', listType: services[8].value}
-          ]}, {ul: [
-            {text: 'Security Door', listType: services[9].value},
-            {text: 'Window Guards', listType: services[10].value},
-            {text: 'Other Services', listType: services[11].value}
+          {text: 'General Welding', listType: this.documentForm.value.services.generalWelding ? 'dot' : 'circle'},
+          {text: 'General Repair', listType:  this.documentForm.value.services.generalRepair ? 'dot' : 'circle'},
+          {text: 'Basement Door', listType:  this.documentForm.value.services.basementDoor ? 'dot' : 'circle'},
+        ]}, {ul: [
+          {text: 'Fire Escapes', listType: this.documentForm.value.services.fireEscapes ? 'dot' : 'circle'},
+          {text: 'Awnings', listType:  this.documentForm.value.services.awnings ? 'dot' : 'circle'},
+          {text: 'Railings', listType:  this.documentForm.value.services.railings ? 'dot' : 'circle'}
+        ]}, {ul: [
+          {text: 'Fences', listType:  this.documentForm.value.services.fences ? 'dot' : 'circle'},
+          {text: 'Stairs', listType:  this.documentForm.value.services.stairs ? 'dot' : 'circle'},
+          {text: 'Gates', listType:  this.documentForm.value.services.gates ? 'dot' : 'circle'}
+        ]}, {ul: [
+          {text: 'Security Door', listType:  this.documentForm.value.services.securityDoor ? 'dot' : 'circle'},
+          {text: 'Window Guards', listType:  this.documentForm.value.services.windowGuards ? 'dot' : 'circle'},
+          {text: 'Other Services', listType:  this.documentForm.value.services.otherServices ? 'dot' : 'circle'}
       ]}]]}},
       {alignment: 'left', margin: [0, 10, 0, 0], table: { heights: ['', 220, 30, 30, 30], widths: [250, 120, '*'], body: [
       [{text: 'DESCRIPTION', style: 'tableHeader'}, {text: 'WORKSITE', style: 'tableHeader'}, {text: 'TOTAL', style: 'tableHeader'}],
@@ -348,21 +318,21 @@ export class DocumentEditComponent implements OnInit {
       {style: 'tableServices', table: { widths: ['*', '*', '*', '*'], body: [
         [{text: 'SUMMARY OF SERVICES', style: 'tableHeader', colSpan: 4}, {}, {}, {}],
         [{ul: [
-          {text: 'General Welding', listType: services[0].value},
-          {text: 'General Repair', listType: services[1].value},
-          {text: 'Basement Door', listType: services[2].value},
+          {text: 'General Welding', listType: this.documentForm.value.services.generalWelding ? 'dot' : 'circle'},
+          {text: 'General Repair', listType:  this.documentForm.value.services.generalRepair ? 'dot' : 'circle'},
+          {text: 'Basement Door', listType:  this.documentForm.value.services.basementDoor ? 'dot' : 'circle'},
         ]}, {ul: [
-          {text: 'Fire Escapes', listType: services[3].value},
-          {text: 'Awnings', listType: services[4].value},
-          {text: 'Railings', listType: services[5].value}
+          {text: 'Fire Escapes', listType: this.documentForm.value.services.fireEscapes ? 'dot' : 'circle'},
+          {text: 'Awnings', listType:  this.documentForm.value.services.awnings ? 'dot' : 'circle'},
+          {text: 'Railings', listType:  this.documentForm.value.services.railings ? 'dot' : 'circle'}
         ]}, {ul: [
-          {text: 'Fences', listType: services[6].value},
-          {text: 'Stairs', listType: services[7].value},
-          {text: 'Gates', listType: services[8].value}
+          {text: 'Fences', listType:  this.documentForm.value.services.fences ? 'dot' : 'circle'},
+          {text: 'Stairs', listType:  this.documentForm.value.services.stairs ? 'dot' : 'circle'},
+          {text: 'Gates', listType:  this.documentForm.value.services.gates ? 'dot' : 'circle'}
         ]}, {ul: [
-          {text: 'Security Door', listType: services[9].value},
-          {text: 'Window Guards', listType: services[10].value},
-          {text: 'Other Services', listType: services[11].value}
+          {text: 'Security Door', listType:  this.documentForm.value.services.securityDoor ? 'dot' : 'circle'},
+          {text: 'Window Guards', listType:  this.documentForm.value.services.windowGuards ? 'dot' : 'circle'},
+          {text: 'Other Services', listType:  this.documentForm.value.services.otherServices ? 'dot' : 'circle'}
       ]}]]}},
       {text: 'SERVICE AGREEMENT', style: 'header' },
       {text: '1. DESCRIPTION OF SERVICES. Beginning on upon agreement to this contract Jecche Steel Glass & Aluminum LLC will provide to ' + this.documentForm.value.attn + ' the following services:', style: 'paragraph' },
@@ -435,21 +405,21 @@ export class DocumentEditComponent implements OnInit {
       {fontSize: 10, alignment: 'left', margin: [0, 10, 0, 0], table: { widths: ['*', '*', '*', '*'], body: [
         [{text: 'SUMMARY OF SERVICES', style: 'tableHeader', colSpan: 4}, {}, {}, {}],
         [{ul: [
-          {text: 'General Welding', listType: services[0].value},
-          {text: 'General Repair', listType: services[1].value},
-          {text: 'Basement Door', listType: services[2].value},
+          {text: 'General Welding', listType: this.documentForm.value.services.generalWelding ? 'dot' : 'circle'},
+          {text: 'General Repair', listType:  this.documentForm.value.services.generalRepair ? 'dot' : 'circle'},
+          {text: 'Basement Door', listType:  this.documentForm.value.services.basementDoor ? 'dot' : 'circle'},
         ]}, {ul: [
-          {text: 'Fire Escapes', listType: services[3].value},
-          {text: 'Awnings', listType: services[4].value},
-          {text: 'Railings', listType: services[5].value}
+          {text: 'Fire Escapes', listType: this.documentForm.value.services.fireEscapes ? 'dot' : 'circle'},
+          {text: 'Awnings', listType:  this.documentForm.value.services.awnings ? 'dot' : 'circle'},
+          {text: 'Railings', listType:  this.documentForm.value.services.railings ? 'dot' : 'circle'}
         ]}, {ul: [
-          {text: 'Fences', listType: services[6].value},
-          {text: 'Stairs', listType: services[7].value},
-          {text: 'Gates', listType: services[8].value}
+          {text: 'Fences', listType:  this.documentForm.value.services.fences ? 'dot' : 'circle'},
+          {text: 'Stairs', listType:  this.documentForm.value.services.stairs ? 'dot' : 'circle'},
+          {text: 'Gates', listType:  this.documentForm.value.services.gates ? 'dot' : 'circle'}
         ]}, {ul: [
-          {text: 'Security Door', listType: services[9].value},
-          {text: 'Window Guards', listType: services[10].value},
-          {text: 'Other Services', listType: services[11].value}
+          {text: 'Security Door', listType:  this.documentForm.value.services.securityDoor ? 'dot' : 'circle'},
+          {text: 'Window Guards', listType:  this.documentForm.value.services.windowGuards ? 'dot' : 'circle'},
+          {text: 'Other Services', listType:  this.documentForm.value.services.otherServices ? 'dot' : 'circle'}
       ]}]]}},
       {alignment: 'left', margin: [0, 10, 0, 0], table: { heights: ['', 220, 30, 30, 30], widths: [250, 120, '*'], body: [
       [{text: 'DESCRIPTION', style: 'tableHeader'}, {text: 'WORKSITE', style: 'tableHeader'}, {text: 'TOTAL', style: 'tableHeader'}],

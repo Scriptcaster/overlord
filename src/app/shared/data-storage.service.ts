@@ -1,27 +1,29 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { map, tap, take, exhaustMap } from 'rxjs/operators';
 
 import { Document } from '../documents/document.model';
 import { DocumentService } from '../documents/document.service';
 
 import { Customer } from './customer.model';
 import { CustomerListService } from '../customer-list/customer-list.service';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class DataStorageService {
   constructor(
     private http: HttpClient, 
-    private recipeService: DocumentService,
-    private customerListService: CustomerListService
+    private documentService: DocumentService,
+    private customerListService: CustomerListService,
+    private authService: AuthService
   ) {}
 
   storeCustomers() {
-    const ingredients = this.customerListService.getCustomers();
+    const customers = this.customerListService.getCustomers();
     this.http
       .put(
         'https://ng-oren.firebaseio.com/customers.json',
-        ingredients
+        customers
       )
       .subscribe(response => {
         console.log(response);
@@ -29,11 +31,11 @@ export class DataStorageService {
   }
 
   storeDocuments() {
-    const recipes = this.recipeService.getDocuments();
+    const documents = this.documentService.getDocuments();
     this.http
       .put(
         'https://ng-oren.firebaseio.com/documents.json',
-        recipes
+        documents
       )
       .subscribe(response => {
         console.log(response);
@@ -46,35 +48,34 @@ export class DataStorageService {
         'https://ng-oren.firebaseio.com/customers.json'
       )
       .pipe(
-        map(ingredients => {
-          return ingredients.map(ingredient => {
+        map(customers => {
+          return customers.map(customer => {
             return {
-              ...ingredient,            };
+              ...customer,            };
           });
         }),
-        tap(ingredients => {
-          this.customerListService.setIngredients(ingredients);
+        tap(customers => {
+          this.customerListService.setIngredients(customers);
         })
       )
   }
 
   fetchDocuments() {
-    return this.http
-      .get<Document[]>(
-        'https://ng-oren.firebaseio.com/documents.json'
-      )
-      .pipe(
-        map(recipes => {
-          return recipes.map(recipe => {
-            return {
-              ...recipe,
-              ingredients: recipe.ingredients ? recipe.ingredients : []
-            };
-          });
-        }),
-        tap(recipes => {
-          this.recipeService.setDocuments(recipes);
-        })
-      )
+    return this.http.get<Document[]>(
+      // 'https://ng-oren.firebaseio.com/documents.json?auth='
+      'https://ng-oren.firebaseio.com/documents.json'
+    ).pipe(
+      map(documents => {
+        return documents.map(document => {
+          return {
+            ...document,
+            // customers: document.customers ? document.customers : []
+          };
+        });
+      }),
+      tap(documents => {
+        this.documentService.setDocuments(documents);
+      })
+    );
   }
 }

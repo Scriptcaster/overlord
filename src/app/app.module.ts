@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -15,6 +15,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
 import { DocumentService } from './documents/document.service';
 import { CustomPipe } from './documents/document-edit/custom.pipe';
+import { AuthComponent } from './auth/auth.component';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { AuthInterceptorService } from './auth/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,9 @@ import { CustomPipe } from './documents/document-edit/custom.pipe';
     CustomerListComponent,
     CustomerEditComponent,
     DocumentEditComponent,
-    CustomPipe
+    CustomPipe,
+    AuthComponent,
+    LoadingSpinnerComponent 
   ],
   imports: [
     BrowserModule,
@@ -35,7 +40,11 @@ import { CustomPipe } from './documents/document-edit/custom.pipe';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [CustomerListService, DocumentService],
+  providers: [CustomerListService, DocumentService, {
+    provide: HTTP_INTERCEPTORS, 
+    useClass: AuthInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

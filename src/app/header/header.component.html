@@ -5,8 +5,10 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li routerLinkActive="active"><a routerLink="/documents">Documents</a></li>
-        <li routerLinkActive="active"><a routerLink="/customers">Customers</a></li>
+        <li routerLinkActive="active" *ngIf="!isAuthenticated"><a routerLink="/auth">Authenticate</a></li>
+        <li routerLinkActive="active" *ngIf="isAuthenticated"><a routerLink="/documents">Documents</a></li>
+        <li routerLinkActive="active" *ngIf="isAuthenticated"><a routerLink="/customers">Customers</a></li>
+        <li *ngIf="isAuthenticated"><a style="cursor: pointer" (click)="onLogout()">Logout</a></li>
       </ul>
     </div>
   </div>

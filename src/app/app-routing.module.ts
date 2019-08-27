@@ -5,12 +5,15 @@ import { DocumentsComponent } from './documents/documents.component';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
 import { DocumentsResolverService } from './documents/document-resolver.service';
+import { AuthComponent } from './auth/auth.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/documents', pathMatch: 'full' },
   {
     path: 'documents',
     component: DocumentsComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: 'new', component: DocumentEditComponent },
       {
@@ -20,7 +23,12 @@ const appRoutes: Routes = [
       },
     ]
   },
-  { path: 'customers', component: CustomerListComponent }
+  { 
+    path: 'customers', 
+    component: CustomerListComponent,
+    canActivate: [AuthGuard], 
+  },
+  { path: 'auth', component: AuthComponent }
 ];
 
 @NgModule({

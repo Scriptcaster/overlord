@@ -6,3 +6,6 @@ app-document-item {
 .btn-group {
     margin: 20px 0 10px 0;
 }
+.btn {
+    margin-right: 20px;
+}

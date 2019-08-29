@@ -18,6 +18,8 @@ import { CustomPipe } from './documents/document-edit/custom.pipe';
 import { AuthComponent } from './auth/auth.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { AlertComponent } from './shared/alert/alert.component';
+import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
     DocumentEditComponent,
     CustomPipe,
     AuthComponent,
-    LoadingSpinnerComponent 
+    LoadingSpinnerComponent,
+    AlertComponent,
+    // PlaceholderDirective
   ],
   imports: [
     BrowserModule,
@@ -45,6 +49,9 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
     useClass: AuthInterceptorService,
     multi: true
   }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  // entryComponents: [
+  //   AlertComponent
+  // ]
 })
 export class AppModule {}

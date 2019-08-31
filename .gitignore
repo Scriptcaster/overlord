@@ -46,4 +46,4 @@ testem.log
 Thumbs.db
 
 # Api Key
-/src/app/auth/auth.service.ts
+/src/app/auth/api.service.ts

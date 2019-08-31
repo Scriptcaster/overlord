@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { AuthComponent } from './auth.component';
 import { SharedModule } from '../shared/shared.module';
+// import { api } from './api.service';
 
 @NgModule({
     declarations: [AuthComponent],
@@ -13,6 +14,9 @@ import { SharedModule } from '../shared/shared.module';
         FormsModule,
         RouterModule.forChild([{ path: 'auth', component: AuthComponent }]),
         SharedModule
-    ]
+    ],
+    // providers: [
+    //    ApiKey
+    //   ]
 })
 export class AuthModule {}

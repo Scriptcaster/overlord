@@ -5,6 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { throwError, BehaviorSubject } from 'rxjs';
 import { User } from './user.model';
 import { Router } from '@angular/router';
+import { Api } from './api.service';
 
 export interface AuthResponseData {
     kind: string;
@@ -16,19 +17,21 @@ export interface AuthResponseData {
     register?: boolean;
 }
 
-
 @Injectable({providedIn: 'root'})
 export class AuthService {
     user = new BehaviorSubject<User>(null);
+    api = Api;
     private tokenExpirationTimer: any;
 
     constructor(
         private http: HttpClient,
-        private router: Router
+        private router: Router,
+        // private apiKey: ApiKey
     ) {}
     singup(email: string, password: string) {
+        
         return this.http.post<AuthResponseData>(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCsmU69rBjYCUmrNHPK5sLCh2MmVmnR4RE',
+            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + this.api.key,
             {
                 email: email,
                 password: password,
@@ -49,7 +52,7 @@ export class AuthService {
 
     login(email: string, password: string) {
         return this.http.post<AuthResponseData>(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCsmU69rBjYCUmrNHPK5sLCh2MmVmnR4RE',
+            'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + this.api.key,
             {
                 email: email,
                 password: password,

@@ -2,12 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-
 import { AppRoutingModule } from './app-routing.module';
-
 import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
 import { DocumentsModule } from './documents/documents.module';
 import { CustomerListModule } from './customer-list/customer-list.module';

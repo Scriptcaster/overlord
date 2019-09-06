@@ -11,9 +11,9 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
         CustomerListService, 
         DocumentService, 
         {
-        provide: HTTP_INTERCEPTORS, 
-        useClass: AuthInterceptorService,
-        multi: true
+            provide: HTTP_INTERCEPTORS, 
+            useClass: AuthInterceptorService,
+            multi: true
         }
     ]
 })

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { AlertComponent } from './alert/alert.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { LoggingService } from '../logging.service';
 
 @NgModule({
     declarations: [
@@ -17,6 +18,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
         LoadingSpinnerComponent,
         CommonModule
     ],
-    entryComponents: [AlertComponent]
+    entryComponents: [AlertComponent],
+    providers: [LoggingService]
 })
 export class SharedModule {}

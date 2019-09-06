@@ -6,6 +6,7 @@ import { CustomerListComponent } from './customer-list.component';
 import { CustomerEditComponent } from './customer-edit/customer-edit.component';
 import { AuthGuard } from '../auth/auth.guard';
 import { SharedModule } from '../shared/shared.module';
+import { LoggingService } from '../logging.service';
 
 @NgModule({
     declarations: [
@@ -15,13 +16,10 @@ import { SharedModule } from '../shared/shared.module';
     imports: [
         FormsModule,
         RouterModule.forChild([
-            { 
-                path: 'customers', 
-                component: CustomerListComponent,
-                canActivate: [AuthGuard], 
-              },
+            { path: '', component: CustomerListComponent, canActivate: [AuthGuard] },
         ]),
         SharedModule
-    ]
+    ],
+    // providers: [LoggingService]
 })
 export class CustomerListModule {}

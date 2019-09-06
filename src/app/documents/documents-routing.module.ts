@@ -7,7 +7,7 @@ import { DocumentsResolverService } from './document-resolver.service';
 
 const routes: Routes = [
     {
-        path: 'documents',
+        path: '',
         component: DocumentsComponent,
         canActivate: [AuthGuard],
         children: [

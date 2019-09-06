@@ -5,12 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
-import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
-import { DocumentsModule } from './documents/documents.module';
-import { CustomerListModule } from './customer-list/customer-list.module';
+// import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
+// import { DocumentsModule } from './documents/documents.module';
+// import { CustomerListModule } from './customer-list/customer-list.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core.module';
-import { AuthModule } from './auth/auth.module';
+import { LoggingService } from './logging.service';
+// import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -22,12 +23,13 @@ import { AuthModule } from './auth/auth.module';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    DocumentsModule,
-    CustomerListModule,
-    AuthModule,
+    // DocumentsModule,
+    // CustomerListModule,
+    // AuthModule,
     SharedModule,
     CoreModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  // providers: [LoggingService]
 })
 export class AppModule {}

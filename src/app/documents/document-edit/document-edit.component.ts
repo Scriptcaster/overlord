@@ -212,7 +212,7 @@ export class DocumentEditComponent implements OnInit {
     if (this.documentForm.value.tax) {
       this.tax = '-';
       this.totalPrice = this.subtotalPrice;
-      this.halfPrice = '$' + formatNumber((this.documentForm.value.price.toFixed(2)/2));
+      this.halfPrice = '$' + formatNumber(((this.documentForm.value.price)/2).toFixed(2));
     } else {
       this.tax = '$' + formatNumber((this.documentForm.value.price * 0.06625).toFixed(2)); 
       this.totalPrice = '$' + formatNumber((this.documentForm.value.price + this.documentForm.value.price * 0.06625).toFixed(2));
@@ -274,12 +274,12 @@ export class DocumentEditComponent implements OnInit {
           {type: 'none', ul: [
           {text: this.subtotalPrice, style: 'price'},
         ]}],
-      [{border: [false, false, false, false], fontSize: 10, text: 'Address for payments by check and other documents:'},
+      [{border: [false, false, false, false], fontSize: 9, bold: true, text: 'Address for payments by check and other documents:'},
           {text: 'Tax 6.625%', style: 'price'},
           { type: 'none', ul: [
           {text: this.tax, style: 'price'},
         ]}],
-      [{border: [false, false, false, false], fontSize: 10, bold: true, text: '14 Parkside Dr, Apt 2, Belleville NJ 07109'},
+      [{border: [false, false, false, false], fontSize: 12, bold: true, text: '14 Parkside Dr, Apt 2, Belleville NJ 07109'},
       {text: 'Total', style: 'price'},
       {type: 'none', ul: [
       {text:  this.totalPrice, style: 'price'},
@@ -311,7 +311,7 @@ export class DocumentEditComponent implements OnInit {
           'Newark, NJ 07104',
           'Phone: (862) 234-1559 Cell: (973) 368-3248',
           'Email: jecchellc@yahoo.com',
-          'Web: www.jecche.com'
+          'Web: www.jecche.com',
           ]}, {type: 'none',  style: 'tableBody', ul: [
             this.documentForm.value.customer
         ]}]]}}]},
@@ -343,6 +343,8 @@ export class DocumentEditComponent implements OnInit {
       {type: 'none',  style: 'tableBody', ul: [
         {text: 'Worksite: ' + this.documentForm.value.worksite, fontSize: 8, margin: [0, 10, 0, 0] },
         {text: this.documentForm.value.note, fontSize: 8, margin: [0, 10, 0, 0], },
+        {text: 'Address for payments by check and other documents:', fontSize: 8, bold: true, margin: [0, 10, 0, 0], },
+        {text: '14 Parkside Dr, Apt 2, Belleville NJ 07109', fontSize: 12, bold: true, margin: [0, 10, 0, 0], },
       ]},
       {text: '2. PAYMENT FOR SERVICES. In exchange for the services ' + this.documentForm.value.attn + ' will pay Jecche Steel, Glass & Aluminum LLC according to the following schedule:', style: 'paragraph' },
       {stack: [{ table: { widths: [400, '*'],  body: [

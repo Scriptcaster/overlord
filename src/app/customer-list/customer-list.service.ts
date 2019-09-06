@@ -4,38 +4,38 @@ import { Subject } from 'rxjs';
 export class CustomerListService {
   itemsChanged = new Subject<Customer[]>();
   startedEditing = new Subject<number>();
-  private ingredients: Customer[] = [];
+  private customers: Customer[] = [];
 
-  setIngredients(ingredients: Customer[]) {
-    this.ingredients = ingredients;
-    this.itemsChanged.next(this.ingredients.slice());
+  setIngredients(customers: Customer[]) {
+    this.customers = customers;
+    this.itemsChanged.next(this.customers.slice());
   }
 
   getCustomers() {
-    return this.ingredients.slice();
+    return this.customers.slice();
   }
 
   getCustomer(index: number) {
-    return this.ingredients[index];
+    return this.customers[index];
   }
 
-  addIngredient(ingredient: Customer) {
-    this.ingredients.push(ingredient);
-    this.itemsChanged.next(this.ingredients.slice());
+  addIngredient(customer: Customer) {
+    this.customers.push(customer);
+    this.itemsChanged.next(this.customers.slice());
   }
 
-  addIngredients(ingredients: Customer[]) {
-    this.ingredients.push(...ingredients);
-    this.itemsChanged.next(this.ingredients.slice());
+  addIngredients(customers: Customer[]) {
+    this.customers.push(...customers);
+    this.itemsChanged.next(this.customers.slice());
   }
 
   updateIngredient(index: number, newIngredient: Customer) {
-    this.ingredients[index] = newIngredient;
-    this.itemsChanged.next(this.ingredients.slice());
+    this.customers[index] = newIngredient;
+    this.itemsChanged.next(this.customers.slice());
   }
 
   deleteIngredient(index: number) {
-    this.ingredients.splice(index, 1);
-    this.itemsChanged.next(this.ingredients.slice());
+    this.customers.splice(index, 1);
+    this.itemsChanged.next(this.customers.slice());
   }
 }

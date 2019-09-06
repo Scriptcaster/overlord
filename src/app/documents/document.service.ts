@@ -25,8 +25,8 @@ export class DocumentService {
     return this.recipes[index];
   }
 
-  addIngredientsToShoppingList(ingredients: Customer[]) {
-    this.costomerListService.addIngredients(ingredients);
+  addIngredientsToShoppingList(customers: Customer[]) {
+    this.costomerListService.addIngredients(customers);
   }
 
   addDocument(recipe: Document) {

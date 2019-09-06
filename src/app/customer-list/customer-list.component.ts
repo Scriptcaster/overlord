@@ -11,16 +11,16 @@ import { LoggingService } from '../logging.service';
   styles: [``]
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
-  ingredients: Customer[];
+  customers: Customer[];
   private subscription: Subscription;
 
   constructor(private customerListService: CustomerListService, private loggingService: LoggingService) { }
 
   ngOnInit() {
-    this.ingredients = this.customerListService.getCustomers();
+    this.customers = this.customerListService.getCustomers();
     this.subscription = this.customerListService.itemsChanged.subscribe(
-      (ingredients: Customer[]) => {
-        this.ingredients = ingredients;
+      (customers: Customer[]) => {
+        this.customers = customers;
       }
     );
 

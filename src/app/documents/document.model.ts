@@ -30,7 +30,7 @@ export class Document {
   public price: number;
   public tax: boolean;
 
-  public ingredients: Customer[];
+  public customers: Customer[];
 
   public things: Thing[];
   public aden: string;
@@ -66,7 +66,7 @@ export class Document {
     price: number,
     tax: boolean,
 
-    ingredients: Customer[],
+    customers: Customer[],
     things: [],
     aden: string,
 
@@ -100,7 +100,7 @@ export class Document {
     this.price = price;
     this.tax = tax;
 
-    this.ingredients = ingredients;
+    this.customers = customers;
     this.things = things;
     this.aden = aden;
 

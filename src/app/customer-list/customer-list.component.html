@@ -4,9 +4,9 @@
     <hr>
     <ul class="list-group">
       <a class="list-group-item" style="cursor: pointer"
-        *ngFor="let ingredient of ingredients; let i = index"
+        *ngFor="let customer of customers; let i = index"
         (click)="onEditItem(i)">
-        {{ ingredient.attn }} ({{ ingredient.customer }})
+        {{ customer.attn }} ({{ customer.customer }})
       </a>
     </ul>
   </div>

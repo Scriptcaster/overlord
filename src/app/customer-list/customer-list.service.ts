@@ -6,7 +6,7 @@ export class CustomerListService {
   startedEditing = new Subject<number>();
   private customers: Customer[] = [];
 
-  setIngredients(customers: Customer[]) {
+  setCustomers(customers: Customer[]) {
     this.customers = customers;
     this.itemsChanged.next(this.customers.slice());
   }
@@ -19,22 +19,22 @@ export class CustomerListService {
     return this.customers[index];
   }
 
-  addIngredient(customer: Customer) {
+  addCustomer(customer: Customer) {
     this.customers.push(customer);
     this.itemsChanged.next(this.customers.slice());
   }
 
-  addIngredients(customers: Customer[]) {
+  addCustomers(customers: Customer[]) {
     this.customers.push(...customers);
     this.itemsChanged.next(this.customers.slice());
   }
 
-  updateIngredient(index: number, newIngredient: Customer) {
-    this.customers[index] = newIngredient;
+  updateCustomer(index: number, newCustomer: Customer) {
+    this.customers[index] = newCustomer;
     this.itemsChanged.next(this.customers.slice());
   }
 
-  deleteIngredient(index: number) {
+  deleteCustomer(index: number) {
     this.customers.splice(index, 1);
     this.itemsChanged.next(this.customers.slice());
   }

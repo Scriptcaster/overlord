@@ -55,7 +55,7 @@ export class DataStorageService {
           });
         }),
         tap(customers => {
-          this.customerListService.setIngredients(customers);
+          this.customerListService.setCustomers(customers);
         })
       )
   }

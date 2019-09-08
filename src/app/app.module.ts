@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store'; // new rx way
+
+
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -10,7 +13,8 @@ import { AppRoutingModule } from './app-routing.module';
 // import { CustomerListModule } from './customer-list/customer-list.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core.module';
-import { LoggingService } from './logging.service';
+import { customerListReducer } from './customer-list/store/customer-list.reducer'; // new rx way
+// import { LoggingService } from './logging.service';
 // import { AuthModule } from './auth/auth.module';
 
 @NgModule({
@@ -23,9 +27,7 @@ import { LoggingService } from './logging.service';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    // DocumentsModule,
-    // CustomerListModule,
-    // AuthModule,
+    StoreModule.forRoot({customerList: customerListReducer}), // new rx way
     SharedModule,
     CoreModule
   ],

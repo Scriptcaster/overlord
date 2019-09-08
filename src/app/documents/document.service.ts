@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { Document } from './document.model';
 import { Customer } from '../shared/customer.model';
 import { CustomerListService } from '../customer-list/customer-list.service';
+import * as CustomerListActions from '../customer-list/store/customer-list.actions';
 
 @Injectable()
 export class DocumentService {
   documentsChanged = new Subject<Document[]>();
   private recipes: Document[] = [];
 
-  constructor(private costomerListService: CustomerListService) {}
+  constructor(
+    private costomerListService: CustomerListService,
+    private store: Store<{ customerList: { customers: Customer[]} }>
+  ) {}
 
   setDocuments(recipes: Document[]) {
     this.recipes = recipes;
@@ -25,8 +30,9 @@ export class DocumentService {
     return this.recipes[index];
   }
 
-  addIngredientsToShoppingList(customers: Customer[]) {
-    this.costomerListService.addIngredients(customers);
+  addCustomersToCustomerList(customers: Customer[]) {
+    // this.costomerListService.addCustomers(customers);
+    this.store.dispatch(new CustomerListActions.AddCustomers(customers));
   }
 
   addDocument(recipe: Document) {

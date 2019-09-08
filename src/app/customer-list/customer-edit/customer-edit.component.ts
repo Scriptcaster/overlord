@@ -6,6 +6,9 @@ import { Customer } from '../../shared/customer.model';
 import { CustomerListService } from '../customer-list.service';
 
 import { DataStorageService } from '../../shared/data-storage.service';
+import { Store } from '@ngrx/store';
+
+import * as CustomerListActions from '../store/customer-list.actions';
 
 
 @Component({
@@ -21,7 +24,8 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
 
   constructor(
     private costomerListService: CustomerListService,
-    private dataStorageService: DataStorageService
+    private dataStorageService: DataStorageService,
+    private store: Store<{ customerList: { customers: Customer[]} }>
   ) {}
 
   ngOnInit() {
@@ -42,11 +46,18 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
 
   onSubmit(form: NgForm) {
     const value = form.value;
-    const newIngredient = new Customer(value.attn, value.customer);
+    const newCustomer = new Customer(value.attn, value.customer);
     if (this.editMode) {
-      this.costomerListService.updateIngredient(this.editedItemIndex, newIngredient);
+      // this.costomerListService.updateCustomer(this.editedItemIndex, newCustomer);
+      this.store.dispatch(
+        new CustomerListActions.UpdateCustomer({ 
+          index: this.editedItemIndex, 
+          customer: newCustomer 
+        })
+      );
     } else {
-      this.costomerListService.addIngredient(newIngredient);
+      // this.costomerListService.addCUstomer(newCustomer);
+      this.store.dispatch(new CustomerListActions.AddCustomer(newCustomer));
     }
     this.dataStorageService.storeCustomers();
     this.editMode = false;
@@ -59,7 +70,10 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.costomerListService.deleteIngredient(this.editedItemIndex);
+    // this.costomerListService.deleteCustomer(this.editedItemIndex);
+    this.store.dispatch(
+      new CustomerListActions.DeleteCustomer(this.editedItemIndex)
+    );
     this.onClear();
     this.dataStorageService.storeCustomers();
   }

@@ -8,7 +8,6 @@ import { DocumentService } from '../document.service';
 import { DataStorageService } from '../../shared/data-storage.service';
 
 import { Customer } from '../../shared/customer.model';
-import { CustomerListService } from '../../customer-list/customer-list.service';
 
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
@@ -60,7 +59,6 @@ export class DocumentEditComponent implements OnInit {
     private documentService: DocumentService,
     private router: Router,
     private dataStorageService: DataStorageService,
-    private customerListService: CustomerListService, 
   ) {}
 
   ngOnInit() {
@@ -69,11 +67,11 @@ export class DocumentEditComponent implements OnInit {
       this.editMode = params['id'] != null;
       this.initForm();
       this.dataStorageService.fetchCustomers().subscribe();
-      this.subscription = this.customerListService.itemsChanged.subscribe(
-        (items: Customer[]) => {
-          this.items = items;
-        }
-      );
+      // this.subscription = this.customerListService.itemsChanged.subscribe(
+      //   (items: Customer[]) => {
+      //     this.items = items;
+      //   }
+      // );
     });
     this.typeForm = new FormGroup({
       'type': new FormControl('Estimate')

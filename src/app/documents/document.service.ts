@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 
 import { Document } from './document.model';
 import { Customer } from '../shared/customer.model';
-import { CustomerListService } from '../customer-list/customer-list.service';
 import * as CustomerListActions from '../customer-list/store/customer-list.actions';
+import * as fromCustomerList from '../customer-list/store/customer-list.reducer';
 
 @Injectable()
 export class DocumentService {
@@ -13,8 +13,7 @@ export class DocumentService {
   private recipes: Document[] = [];
 
   constructor(
-    private costomerListService: CustomerListService,
-    private store: Store<{ customerList: { customers: Customer[]} }>
+    private store: Store<fromCustomerList.AppState>
   ) {}
 
   setDocuments(recipes: Document[]) {

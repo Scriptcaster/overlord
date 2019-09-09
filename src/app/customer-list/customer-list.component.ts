@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { Customer } from '../shared/customer.model';
-import { CustomerListService } from './customer-list.service';
 import { LoggingService } from '../logging.service';
-import { Store } from '@ngrx/store';
+import * as fromCustomerList from './store/customer-list.reducer';
+import * as CustomerListActions from './store/customer-list.actions';
 
 @Component({
   selector: 'app-customer-list',
@@ -16,9 +17,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   // private subscription: Subscription;
 
   constructor(
-    private customerListService: CustomerListService, 
     private loggingService: LoggingService,
-    private store: Store<{ customerList: { customers: Customer[]} }>
+    private store: Store<fromCustomerList.AppState>
   ) { }
 
   ngOnInit() {
@@ -35,7 +35,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   onEditItem(index: number) {
-    this.customerListService.startedEditing.next(index);
+    // this.customerListService.startedEditing.next(index);
+    this.store.dispatch( new CustomerListActions.StartEdit(index) );
   }
 
   ngOnDestroy() {

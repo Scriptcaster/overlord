@@ -6,7 +6,6 @@ import { Document } from '../documents/document.model';
 import { DocumentService } from '../documents/document.service';
 
 import { Customer } from './customer.model';
-import { CustomerListService } from '../customer-list/customer-list.service';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable({ providedIn: 'root' })
@@ -14,12 +13,11 @@ export class DataStorageService {
   constructor(
     private http: HttpClient, 
     private documentService: DocumentService,
-    private customerListService: CustomerListService,
     private authService: AuthService
   ) {}
 
   storeCustomers() {
-    const customers = this.customerListService.getCustomers();
+    const customers = [];
     this.http
       .put(
         'https://ng-oren.firebaseio.com/customers.json',
@@ -55,7 +53,7 @@ export class DataStorageService {
           });
         }),
         tap(customers => {
-          this.customerListService.setCustomers(customers);
+          // this.customerListService.setCustomers(customers);
         })
       )
   }

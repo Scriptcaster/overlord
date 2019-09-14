@@ -3,19 +3,21 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store'; // new rx way
-
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule} from '@ngrx/router-store';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
-// import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
-// import { DocumentsModule } from './documents/documents.module';
-// import { CustomerListModule } from './customer-list/customer-list.module';
+
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core.module';
-import { customerListReducer } from './customer-list/store/customer-list.reducer'; // new rx way
-// import { LoggingService } from './logging.service';
-// import { AuthModule } from './auth/auth.module';
+import * as fromApp from './store/app.reducer';
+import { AuthEffects } from './auth/store/auth.effects';
+import { environment } from '../environments/environment';
+import { DocumentEffects } from './documents/store/document.effects';
+import { CustomerEffects } from './customer-list/store/customer-list.effects';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,10 @@ import { customerListReducer } from './customer-list/store/customer-list.reducer
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    StoreModule.forRoot({customerList: customerListReducer}), // new rx way
+    StoreModule.forRoot(fromApp.appReducer), // new rx way
+    EffectsModule.forRoot([AuthEffects, DocumentEffects, CustomerEffects]),
+    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
+    StoreRouterConnectingModule.forRoot(),
     SharedModule,
     CoreModule
   ],

@@ -2,12 +2,16 @@ import { Action } from '@ngrx/store';
 
 import { Customer } from '../../shared/customer.model';
 
-export const ADD_CUSTOMER = 'ADD_CUSTOMER';
-export const ADD_CUSTOMERS = 'ADD_CUSTOMERS';
-export const UPDATE_CUSTOMER = 'UPDATE_CUSTOMER';
-export const DELETE_CUSTOMER = 'DELETE_CUSTOMER';
-export const START_EDIT = 'START_EDIT';
-export const STOP_EDIT = 'STOP_EDIT';
+export const ADD_CUSTOMER = '[Customer List] Add Customer';
+export const ADD_CUSTOMERS = '[Customer List] Add Customers';
+export const UPDATE_CUSTOMER = '[Customer List] Update Customer';
+export const DELETE_CUSTOMER = '[Customer List] Delete Customer';
+export const START_EDIT = '[Customer List] Start Edit';
+export const STOP_EDIT = '[Customer List] Stop Edit';
+
+export const SET_CUSTOMERS = '[Customers] Set Customers';
+export const FETCH_CUTOMERS = '[Customers] Fetch Customers';
+export const STORE_CUSTOMERS = '[Customer] Store Customers';
 
 export class AddCustomer implements Action {
     readonly type = ADD_CUSTOMER;
@@ -44,10 +48,28 @@ export class StopEdit implements Action {
     readonly type = STOP_EDIT;
 }
 
+export class SetCustomers implements Action {
+    readonly type = SET_CUSTOMERS;
+
+    constructor(public payload: Customer[]) {}
+}
+
+export class  FetchCustomers implements Action {
+    readonly type = FETCH_CUTOMERS;
+}
+
+export class StoreCustomers implements Action {
+    readonly type = STORE_CUSTOMERS;
+}
+
 export type CutomerListActions = 
     AddCustomer | 
     AddCustomers | 
     UpdateCustomer | 
     DeleteCustomer |
     StartEdit |
-    StopEdit;
+    StopEdit |
+
+    SetCustomers | 
+    FetchCustomers | 
+    StoreCustomers;

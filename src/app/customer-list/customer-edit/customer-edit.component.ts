@@ -3,11 +3,11 @@ import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { Customer } from '../../shared/customer.model';
-import { DataStorageService } from '../../shared/data-storage.service';
 import { Store } from '@ngrx/store';
 
-import * as CustomerListActions from '../store/customer-list.actions';
-import * as fromCustomerList from '../store/customer-list.reducer';
+import * as CustomersActions from '../store/customer-list.actions';
+import * as fromApp from '../../store/app.reducer';
+
 
 @Component({
   selector: 'app-customer-edit',
@@ -21,12 +21,12 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
   editedItem: Customer;
 
   constructor(
-    private dataStorageService: DataStorageService,
-    private store: Store<fromCustomerList.AppState>
+    // private dataStorageService: DataStorageService,
+    private store: Store<fromApp.AppState>
   ) {}
 
   ngOnInit() {
-    this.dataStorageService.fetchCustomers().subscribe();
+    // this.dataStorageService.fetchCustomers().subscribe();
     this.subscription = this.store.select('customerList').subscribe(stateData => {
       if (stateData.editedCustomerIndex > -1) {
         this.editMode = true;
@@ -40,6 +40,8 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
         this.editMode = false;
       }
     });
+
+    // this.store.dispatch(new CustomersActions.FetchCustomers()); // to Server
     // this.subscription = this.costomerListService.startedEditing.subscribe(
     //   (index: number) => {
     //     this.editedItemIndex = index;
@@ -59,35 +61,35 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       // this.costomerListService.updateCustomer(this.editedItemIndex, newCustomer);
       this.store.dispatch(
-        new CustomerListActions.UpdateCustomer( newCustomer )
+        new CustomersActions.UpdateCustomer( newCustomer )
       );
     } else {
       // this.costomerListService.addCUstomer(newCustomer);
-      this.store.dispatch(new CustomerListActions.AddCustomer(newCustomer));
+      this.store.dispatch(new CustomersActions.AddCustomer(newCustomer));
     }
-    this.dataStorageService.storeCustomers();
+    // this.dataStorageService.storeCustomers();
     this.editMode = false;
+    this.store.dispatch(new CustomersActions.StoreCustomers()); // to Server
     form.reset();
+    
   }
 
   onClear() {
     this.slForm.reset();
     this.editMode = false;
-    this.store.dispatch( new CustomerListActions.StopEdit() );
+    this.store.dispatch( new CustomersActions.StopEdit() );
   }
 
   onDelete() {
-    // this.costomerListService.deleteCustomer(this.editedItemIndex);
     this.store.dispatch(
-      new CustomerListActions.DeleteCustomer()
+      new CustomersActions.DeleteCustomer()
     );
     this.onClear();
-    this.dataStorageService.storeCustomers();
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-    this.store.dispatch( new CustomerListActions.StopEdit() );
+    this.store.dispatch( new CustomersActions.StopEdit() );
   }
 
 }

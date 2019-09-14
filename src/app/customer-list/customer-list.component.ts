@@ -4,11 +4,11 @@ import { Store } from '@ngrx/store';
 
 import { Customer } from '../shared/customer.model';
 import { LoggingService } from '../logging.service';
-import * as fromCustomerList from './store/customer-list.reducer';
-import * as CustomerListActions from './store/customer-list.actions';
+import * as CutomerListActions from './store/customer-list.actions';
+import * as fromApp from '../store/app.reducer';
 
 @Component({
-  selector: 'app-customer-list',
+  selector: 'app-customer',
   templateUrl: './customer-list.component.html',
   styles: [``]
 })
@@ -18,7 +18,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   constructor(
     private loggingService: LoggingService,
-    private store: Store<fromCustomerList.AppState>
+    private store: Store<fromApp.AppState>
   ) { }
 
   ngOnInit() {
@@ -36,7 +36,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   onEditItem(index: number) {
     // this.customerListService.startedEditing.next(index);
-    this.store.dispatch( new CustomerListActions.StartEdit(index) );
+    this.store.dispatch( new CutomerListActions.StartEdit(index) );
   }
 
   ngOnDestroy() {

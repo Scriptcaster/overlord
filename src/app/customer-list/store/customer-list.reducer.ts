@@ -8,9 +8,9 @@ export interface State {
     editedCustomerIndex: number;
 }
 
-export interface AppState {
-    customerList: State;
-}
+// export interface AppState {
+//     customerList: State;
+// }
 
 const initialState: State = {
     customers:[ new Customer('Steve Jobs', 'Founder of Apple')],

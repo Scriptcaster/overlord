@@ -1,17 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-
-import { DocumentService } from '../document.service';
-
-import { DataStorageService } from '../../shared/data-storage.service';
+import { Store } from '@ngrx/store';
+import { map } from 'rxjs/operators';
 
 import { Customer } from '../../shared/customer.model';
-
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
-import { ok } from 'assert';
+import * as fromApp from '../../store/app.reducer';
+import * as DocumentsActions from '../store/document.actions';
+
+import { CutomerListActions } from '../../customer-list/store/customer-list.actions';
+import { customerListReducer } from '../../customer-list/store/customer-list.reducer';
+
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -19,7 +21,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   selector: 'app-document-edit',
   templateUrl: './document-edit.component.html' 
 })
-export class DocumentEditComponent implements OnInit {
+export class DocumentEditComponent implements OnInit, OnDestroy {
   types = ['Estimate', 'Contract', 'Invoice'];
   typeForm: FormGroup;
 
@@ -54,11 +56,12 @@ export class DocumentEditComponent implements OnInit {
     {name: 'otherServices', value: false},
   ];
 
+  private storeSub: Subscription;
+
   constructor(
     private route: ActivatedRoute,
-    private documentService: DocumentService,
     private router: Router,
-    private dataStorageService: DataStorageService,
+    private store: Store<fromApp.AppState>,
   ) {}
 
   ngOnInit() {
@@ -66,7 +69,9 @@ export class DocumentEditComponent implements OnInit {
       this.id = +params['id'];
       this.editMode = params['id'] != null;
       this.initForm();
-      this.dataStorageService.fetchCustomers().subscribe();
+
+      // this.dataStorageService.fetchCustomers().subscribe();
+      
       // this.subscription = this.customerListService.itemsChanged.subscribe(
       //   (items: Customer[]) => {
       //     this.items = items;
@@ -79,27 +84,49 @@ export class DocumentEditComponent implements OnInit {
   }
 
   onSubmit() {
-    this.items.forEach(element => {
-      if (element.attn === this.documentForm.value.attn){
-        this.documentForm.value.customer = element.customer;
-      }
-    });
-
     if (this.editMode) {
-      this.documentService.updateDocument(this.id, this.documentForm.value);
+      this.store.dispatch(
+        new DocumentsActions.UpdateDocument({
+          index: this.id,
+          newDocument: this.documentForm.value
+        })
+      );
     } else {
-      this.documentService.addDocument(this.documentForm.value);
+      this.store.dispatch(new DocumentsActions.AddDocument(this.documentForm.value));
     }
-    this.dataStorageService.storeDocuments();
     this.onCancel();
+    this.store.dispatch(new DocumentsActions.StoreDocuments()); // to Server
   }
+
+  // onSubmit() {
+  //   console.log('onSubmit');
+  //   this.items.forEach(element => {
+  //     if (element.attn === this.documentForm.value.attn){
+  //       this.documentForm.value.customer = element.customer;
+  //     }
+  //   });
+  //   if (this.editMode) {
+  //     this.store.dispatch(
+  //       new DocumentsActions.UpdateDocument({
+  //         index: this.id,
+  //         newDocument: this.documentForm.value
+  //       })
+  //     );
+  //   } else {
+  //     this.store.dispatch(new DocumentsActions.AddDocument(this.documentForm.value));
+  //   }
+  //   this.onCancel();
+  // }
 
   onCancel() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
   onDelete() {
-    this.documentService.deleteDocument(this.documentForm.value);
-    this.dataStorageService.storeDocuments();
+    console.log('onDelete');
+    // this.store.dispatch(new DocumentsActions.DeleteDocument(this.id));
+    this.store.dispatch(new DocumentsActions.DeleteDocument(this.id));
+    this.router.navigate(['/documents']);
+    this.store.dispatch(new DocumentsActions.StoreDocuments()); // to Server
   }
   onAddThing() {
     (<FormArray>this.documentForm.get('things')).push(
@@ -108,6 +135,12 @@ export class DocumentEditComponent implements OnInit {
   }
   onDeleteThing(index: number) {
     (<FormArray>this.documentForm.get('things')).removeAt(index);
+  }
+
+  ngOnDestroy() {
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
+    }
   }
 
   private initForm() {
@@ -136,35 +169,44 @@ export class DocumentEditComponent implements OnInit {
     let documentThings = new FormArray([]);
 
     if (this.editMode) {
-      const document = this.documentService.getDocument(this.id);
-      documentNumber = document.number;
-      documentDate = document.date;
-      documentAttn = document.attn;
-      documentCustomer = document.customer;
-      documentWorksite = document.worksite;
-      documentGeneralWelding = document.services.generalWelding;
-      documentGeneralRepair = document.services.generalRepair;
-      documentBasementDoor = document.services.basementDoor;
-      documentFireEscapes = document.services.fireEscapes;
-      documentAwnings = document.services.awnings;
-      documentRailings = document.services.railings;
-      documentFences = document.services.fences;
-      documentStairs = document.services.stairs;
-      documentGates = document.services.gates;
-      documentSecurityDoor = document.services.securityDoor;
-      documentWindowGuards = document.services.windowGuards;
-      documentOtherServices = document.services.otherServices;
-      documentDescription = document.description;
-      documentNote = document.note;
-      documentPrice = document.price;
-      documentTax = document.tax;
+      this.storeSub = this.store
+      .select('documents')
+      .pipe(
+        map(documentState => {
+          return documentState.documents.find((document, index) => {
+            return index === this.id;
+          })
+        })
+      )
+      .subscribe(document => {
+        documentNumber = document.number;
+        documentDate = document.date;
+        documentAttn = document.attn;
+        documentCustomer = document.customer;
+        documentWorksite = document.worksite;
+        documentGeneralWelding = document.services.generalWelding;
+        documentGeneralRepair = document.services.generalRepair;
+        documentBasementDoor = document.services.basementDoor;
+        documentFireEscapes = document.services.fireEscapes;
+        documentAwnings = document.services.awnings;
+        documentRailings = document.services.railings;
+        documentFences = document.services.fences;
+        documentStairs = document.services.stairs;
+        documentGates = document.services.gates;
+        documentSecurityDoor = document.services.securityDoor;
+        documentWindowGuards = document.services.windowGuards;
+        documentOtherServices = document.services.otherServices;
+        documentDescription = document.description;
+        documentNote = document.note;
+        documentPrice = document.price;
+        documentTax = document.tax;
 
-      if (document['things']) {
-        for (let thing of document.things) {
-          documentThings.push( new FormGroup({ aden: new FormControl(thing.aden, Validators.required)}) );
+        if (document['things']) {
+          for (let thing of document.things) {
+            documentThings.push( new FormGroup({ aden: new FormControl(thing.aden, Validators.required)}) );
+          }
         }
-      }
-
+      })
     }
 
     this.documentForm = new FormGroup({

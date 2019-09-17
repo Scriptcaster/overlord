@@ -17,7 +17,7 @@ import * as fromApp from './store/app.reducer';
 import { AuthEffects } from './auth/store/auth.effects';
 import { environment } from '../environments/environment';
 import { DocumentEffects } from './documents/store/document.effects';
-import { CustomerEffects } from './customer-list/store/customer-list.effects';
+import { CustomerEffects } from './customers/store/customer.effects';
 
 @NgModule({
   declarations: [

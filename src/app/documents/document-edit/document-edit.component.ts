@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 
@@ -11,9 +11,7 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import * as fromApp from '../../store/app.reducer';
 import * as DocumentsActions from '../store/document.actions';
 
-import { CutomerListActions } from '../../customer-list/store/customer-list.actions';
-import { customerListReducer } from '../../customer-list/store/customer-list.reducer';
-
+import * as CustomersActions from '../../customers/store/customer.actions';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -29,7 +27,6 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
   editMode = false;
   documentForm: FormGroup;
   items: Customer[];
-  private subscription: Subscription;
 
   logo: any = [];
   estimate: any = [];
@@ -40,6 +37,8 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
   tax: string;
   halfPrice: string;
   totalPrice: string;
+  private subscription: Subscription;
+  private storeSub: Subscription;
 
   services = [
     {name: 'generalWelding', value: false},
@@ -56,27 +55,25 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
     {name: 'otherServices', value: false},
   ];
 
-  private storeSub: Subscription;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<fromApp.AppState>,
   ) {}
-
+ 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];
       this.editMode = params['id'] != null;
       this.initForm();
+      this.store.dispatch(new CustomersActions.FetchCustomers()); // my 
 
-      // this.dataStorageService.fetchCustomers().subscribe();
-      
-      // this.subscription = this.customerListService.itemsChanged.subscribe(
-      //   (items: Customer[]) => {
-      //     this.items = items;
-      //   }
-      // );
+      this.subscription = this.store
+      .select('customers')
+      .pipe(map(customersState => customersState.customers))
+      .subscribe((customers: Customer[]) => {
+        this.items = customers;
+      });
     });
     this.typeForm = new FormGroup({
       'type': new FormControl('Estimate')
@@ -84,6 +81,7 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+
     if (this.editMode) {
       this.store.dispatch(
         new DocumentsActions.UpdateDocument({
@@ -98,32 +96,10 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
     this.store.dispatch(new DocumentsActions.StoreDocuments()); // to Server
   }
 
-  // onSubmit() {
-  //   console.log('onSubmit');
-  //   this.items.forEach(element => {
-  //     if (element.attn === this.documentForm.value.attn){
-  //       this.documentForm.value.customer = element.customer;
-  //     }
-  //   });
-  //   if (this.editMode) {
-  //     this.store.dispatch(
-  //       new DocumentsActions.UpdateDocument({
-  //         index: this.id,
-  //         newDocument: this.documentForm.value
-  //       })
-  //     );
-  //   } else {
-  //     this.store.dispatch(new DocumentsActions.AddDocument(this.documentForm.value));
-  //   }
-  //   this.onCancel();
-  // }
-
   onCancel() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
   onDelete() {
-    console.log('onDelete');
-    // this.store.dispatch(new DocumentsActions.DeleteDocument(this.id));
     this.store.dispatch(new DocumentsActions.DeleteDocument(this.id));
     this.router.navigate(['/documents']);
     this.store.dispatch(new DocumentsActions.StoreDocuments()); // to Server
@@ -241,8 +217,16 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
 
   }
 
+  onUpdateCustomer() {
+    this.items.forEach(element => {
+      if (element.attn === this.documentForm.value.attn){
+        this.documentForm.controls['customer'].setValue(element.customer);
+      }
+    });
+  }
+  
   generatePdf() {
-
+   
     function formatNumber(num) {
       return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }

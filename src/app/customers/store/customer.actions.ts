@@ -62,7 +62,7 @@ export class StoreCustomers implements Action {
     readonly type = STORE_CUSTOMERS;
 }
 
-export type CutomerListActions = 
+export type CustomersActions = 
     AddCustomer | 
     AddCustomers | 
     UpdateCustomer | 

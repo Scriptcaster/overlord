@@ -4,16 +4,19 @@ import { Store } from '@ngrx/store';
 
 import { Customer } from '../shared/customer.model';
 import { LoggingService } from '../logging.service';
-import * as CutomerListActions from './store/customer-list.actions';
+import * as CustomersActions from './store/customer.actions';
 import * as fromApp from '../store/app.reducer';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-customer',
-  templateUrl: './customer-list.component.html',
+  templateUrl: './customers.component.html',
   styles: [``]
 })
-export class CustomerListComponent implements OnInit, OnDestroy {
-  customers: Observable<{ customers: Customer[] }>
+export class CustomersComponent implements OnInit, OnDestroy {
+  // customers: Observable<{ customers: Customer[] }>
+  customers: Customer[];
+  subscription: Subscription;
   // private subscription: Subscription;
 
   constructor(
@@ -22,7 +25,21 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.customers = this.store.select('customerList');
+    // this.customers = this.store.select('customers');
+    // this.store.dispatch(new CustomersActions.FetchCustomers()); // from Server
+
+    this.subscription = this.store
+      .select('customers')
+      .pipe(map(customersState => customersState.customers))
+      .subscribe((customers: Customer[]) => {
+        this.customers = customers;
+      });
+    
+    this.store.dispatch(new CustomersActions.FetchCustomers()); // my 
+    console.log(this.store);
+    // this.customers = this.store.select('customers');
+
+    
     // this.store.select('customerList').subscribe(); //manual way
     // this.customers = this.customerListService.getCustomers();
     // this.subscription = this.customerListService.itemsChanged.subscribe(
@@ -31,12 +48,12 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     //   }
     // );
 
-    this.loggingService.printLog('Hello from CustomerListComponent ngOnInit!');
+    // this.loggingService.printLog('Hello from CustomersComponent ngOnInit!');
   }
 
   onEditItem(index: number) {
     // this.customerListService.startedEditing.next(index);
-    this.store.dispatch( new CutomerListActions.StartEdit(index) );
+    this.store.dispatch( new CustomersActions.StartEdit(index) );
   }
 
   ngOnDestroy() {

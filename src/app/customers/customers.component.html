@@ -4,7 +4,7 @@
     <hr>
     <ul class="list-group">
       <a class="list-group-item" style="cursor: pointer"
-        *ngFor="let customer of (customers | async).customers; let i = index"
+        *ngFor="let customer of customers; let i = index"
         (click)="onEditItem(i)">
         {{ customer.attn }} ({{ customer.customer }})
       </a>

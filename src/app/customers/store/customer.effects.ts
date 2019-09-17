@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
-import * as CustomersActions from './customer-list.actions';
+import * as CustomersActions from './customer.actions';
 import * as fromApp from '../../store/app.reducer';
 import { Customer } from '../../shared/customer.model';
 

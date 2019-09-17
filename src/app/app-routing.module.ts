@@ -4,7 +4,7 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 const appRoutes: Routes = [
   { path: '', redirectTo: '/documents', pathMatch: 'full' },
   { path: 'documents', loadChildren: './documents/documents.module#DocumentsModule' },
-  { path: 'customers', loadChildren: './customer-list/customer-list.module#CustomerListModule' },
+  { path: 'customers', loadChildren: './customers/customers.module#CustomersModule' },
   { path: 'auth', loadChildren: './auth/auth.module#AuthModule' },
 ];
 

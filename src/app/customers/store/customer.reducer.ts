@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Customer } from '../../shared/customer.model';
-import * as CustomerListActions from './customer-list.actions';
+import * as CustomersActions from './customer.actions';
 
 export interface State {
     customers: Customer[];
@@ -9,32 +9,38 @@ export interface State {
 }
 
 // export interface AppState {
-//     customerList: State;
+//     Customers: State;
 // }
 
 const initialState: State = {
-    customers:[ new Customer('Steve Jobs', 'Founder of Apple')],
+    customers: [],
+    // customers:[ new Customer('Steve Jobs', 'Founder of Apple')],
     editedCustomer: null,
     editedCustomerIndex: -1 
 };
 
-export function customerListReducer(
+export function customerReducer(
     state: State = initialState, 
-    action: CustomerListActions.CutomerListActions
+    action: CustomersActions.CustomersActions
 ) 
 {
     switch (action.type) {
-        case CustomerListActions.ADD_CUSTOMER:
+        case CustomersActions.SET_CUSTOMERS:
+            return {
+              ...state,
+              customers: [...action.payload]
+            };
+        case CustomersActions.ADD_CUSTOMER:
             return {
                 ...state,
                 customers: [...state.customers, action.payload]
             };
-        case CustomerListActions.ADD_CUSTOMERS:
+        case CustomersActions.ADD_CUSTOMERS:
             return {
                 ...state,
                 customers: [...state.customers, ...action.payload]
             };
-        case CustomerListActions.UPDATE_CUSTOMER:
+        case CustomersActions.UPDATE_CUSTOMER:
             const customer = state.customers[state.editedCustomerIndex];
             const updatedCustomer = {
                 ...customer,
@@ -49,7 +55,7 @@ export function customerListReducer(
                 editedCustomerIndex: -1,
                 editedCustomer: null
             };
-        case CustomerListActions.DELETE_CUSTOMER:
+        case CustomersActions.DELETE_CUSTOMER:
             return {
                 ...state,
                 customers: state.customers.filter((ig, igIndex) => {
@@ -58,13 +64,13 @@ export function customerListReducer(
                 editedCustomerIndex: -1,
                 editedCustomer: null
             };
-        case CustomerListActions.START_EDIT:
+        case CustomersActions.START_EDIT:
             return {
                 ...state,
                 editedCustomerIndex: action.payload,
                 editedCustomer: { ...state.customers[action.payload] }
             };
-        case CustomerListActions.STOP_EDIT:
+        case CustomersActions.STOP_EDIT:
             return {
                 ...state,
                 editedCustomer: null,

@@ -5,9 +5,8 @@ import { Subscription } from 'rxjs';
 import { Customer } from '../../shared/customer.model';
 import { Store } from '@ngrx/store';
 
-import * as CustomersActions from '../store/customer-list.actions';
+import * as CustomersActions from '../store/customer.actions';
 import * as fromApp from '../../store/app.reducer';
-
 
 @Component({
   selector: 'app-customer-edit',
@@ -27,7 +26,7 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // this.dataStorageService.fetchCustomers().subscribe();
-    this.subscription = this.store.select('customerList').subscribe(stateData => {
+    this.subscription = this.store.select('customers').subscribe(stateData => {
       if (stateData.editedCustomerIndex > -1) {
         this.editMode = true;
         this.editedItem = stateData.editedCustomer;
@@ -69,9 +68,8 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
     }
     // this.dataStorageService.storeCustomers();
     this.editMode = false;
-    this.store.dispatch(new CustomersActions.StoreCustomers()); // to Server
+    this.store.dispatch(new CustomersActions.StoreCustomers()); // Push to Data Base
     form.reset();
-    
   }
 
   onClear() {
@@ -81,9 +79,8 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.store.dispatch(
-      new CustomersActions.DeleteCustomer()
-    );
+    this.store.dispatch(new CustomersActions.DeleteCustomer());
+    this.store.dispatch(new CustomersActions.StoreCustomers()); // Push to Data Base
     this.onClear();
   }
 

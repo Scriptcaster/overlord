@@ -37,13 +37,14 @@
         <div class="col-xs-12">
           <!-- <img [src]="date.value" class="img-responsive"> -->
         </div>
-      </div>  
+      </div>
+
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
             <label for="attn">Choose Customer</label>
             <div>
-              <select class="form-control" formControlName="attn" #attn>
+              <select class="form-control" formControlName="attn" #attn (change)="onUpdateCustomer()">
                 <option value="">Choose a customer</option>
                 <option *ngFor="let item of items; let i = index" [value]="item.attn">{{ item.attn }}</option>
               </select>
@@ -55,9 +56,7 @@
         <div class="col-xs-12">
           <div class="form-group">
             <label for="customer">Customer Information</label>
-            <div *ngFor="let item of items; let i = index">
-              <textarea class="form-control" formControlName="customer" *ngIf="item.attn === attn.value" [value]="item.customer"></textarea>
-            </div>
+            <textarea class="form-control" formControlName="customer"></textarea>
           </div>
         </div>
       </div>

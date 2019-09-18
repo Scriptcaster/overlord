@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 
@@ -17,7 +17,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-document-edit',
-  templateUrl: './document-edit.component.html' 
+  templateUrl: './document-edit.component.html'
 })
 export class DocumentEditComponent implements OnInit, OnDestroy {
   types = ['Estimate', 'Contract', 'Invoice'];
@@ -81,7 +81,6 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-
     if (this.editMode) {
       this.store.dispatch(
         new DocumentsActions.UpdateDocument({
@@ -226,7 +225,7 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
   }
   
   generatePdf() {
-   
+
     function formatNumber(num) {
       return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }

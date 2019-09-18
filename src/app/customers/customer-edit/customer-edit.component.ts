@@ -16,21 +16,17 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
   @ViewChild('f', { static: false }) slForm: NgForm;
   subscription: Subscription;
   editMode = false;
-  // editedItemIndex: number;
   editedItem: Customer;
 
   constructor(
-    // private dataStorageService: DataStorageService,
     private store: Store<fromApp.AppState>
   ) {}
 
   ngOnInit() {
-    // this.dataStorageService.fetchCustomers().subscribe();
     this.subscription = this.store.select('customers').subscribe(stateData => {
       if (stateData.editedCustomerIndex > -1) {
         this.editMode = true;
         this.editedItem = stateData.editedCustomer;
-        // this.editedItemIndex = stateData.editedCustomerIndex;
         this.slForm.setValue({
           attn: this.editedItem.attn,
           customer: this.editedItem.customer
@@ -39,36 +35,20 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
         this.editMode = false;
       }
     });
-
-    // this.store.dispatch(new CustomersActions.FetchCustomers()); // to Server
-    // this.subscription = this.costomerListService.startedEditing.subscribe(
-    //   (index: number) => {
-    //     this.editedItemIndex = index;
-    //     this.editMode = true;
-    //     this.editedItem = this.costomerListService.getCustomer(index);
-    //     this.slForm.setValue({
-    //       attn: this.editedItem.attn,
-    //       customer: this.editedItem.customer
-    //     })
-    //   }
-    // );
   }
 
   onSubmit(form: NgForm) {
     const value = form.value;
     const newCustomer = new Customer(value.attn, value.customer);
     if (this.editMode) {
-      // this.costomerListService.updateCustomer(this.editedItemIndex, newCustomer);
       this.store.dispatch(
         new CustomersActions.UpdateCustomer( newCustomer )
       );
     } else {
-      // this.costomerListService.addCUstomer(newCustomer);
       this.store.dispatch(new CustomersActions.AddCustomer(newCustomer));
     }
-    // this.dataStorageService.storeCustomers();
     this.editMode = false;
-    this.store.dispatch(new CustomersActions.StoreCustomers()); // Push to Data Base
+    this.store.dispatch(new CustomersActions.StoreCustomers());
     form.reset();
   }
 
@@ -80,7 +60,7 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
 
   onDelete() {
     this.store.dispatch(new CustomersActions.DeleteCustomer());
-    this.store.dispatch(new CustomersActions.StoreCustomers()); // Push to Data Base
+    this.store.dispatch(new CustomersActions.StoreCustomers()); 
     this.onClear();
   }
 

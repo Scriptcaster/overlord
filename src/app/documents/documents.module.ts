@@ -25,13 +25,5 @@ import { SharedModule } from '../shared/shared.module';
         DocumentsRoutingModule,
         SharedModule 
     ],
-    // exports: [
-    //     DocumentsComponent,
-    //     DocumentListComponent,
-    //     DocumentItemComponent,
-    //     DocumentEditComponent,
-    //     CustomPipe,
-    //     DocumentsRoutingModule 
-    // ]
 })
 export class DocumentsModule {}

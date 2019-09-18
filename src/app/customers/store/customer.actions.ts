@@ -15,7 +15,6 @@ export const STORE_CUSTOMERS = '[Customer] Store Customers';
 
 export class AddCustomer implements Action {
     readonly type = ADD_CUSTOMER;
-    // payload: Customer;
 
     constructor(public payload: Customer) {}
 }
@@ -34,13 +33,10 @@ export class UpdateCustomer implements Action {
 
 export class DeleteCustomer implements Action {
     readonly type = DELETE_CUSTOMER;
-
-    // constructor(public payload: number) {}
 }
 
 export class StartEdit implements Action {
     readonly type = START_EDIT;
-
     constructor(public payload: number) {}
 }
 
@@ -50,7 +46,6 @@ export class StopEdit implements Action {
 
 export class SetCustomers implements Action {
     readonly type = SET_CUSTOMERS;
-
     constructor(public payload: Customer[]) {}
 }
 
@@ -69,7 +64,6 @@ export type CustomersActions =
     DeleteCustomer |
     StartEdit |
     StopEdit |
-
     SetCustomers | 
     FetchCustomers | 
     StoreCustomers;

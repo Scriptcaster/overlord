@@ -20,6 +20,5 @@ import { LoggingService } from '../logging.service';
         ]),
         SharedModule
     ],
-    // providers: [LoggingService]
 })
 export class CustomersModule {}

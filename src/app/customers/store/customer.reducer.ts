@@ -8,13 +8,8 @@ export interface State {
     editedCustomerIndex: number;
 }
 
-// export interface AppState {
-//     Customers: State;
-// }
-
 const initialState: State = {
     customers: [],
-    // customers:[ new Customer('Steve Jobs', 'Founder of Apple')],
     editedCustomer: null,
     editedCustomerIndex: -1 
 };

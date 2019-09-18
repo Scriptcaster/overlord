@@ -1,8 +1,11 @@
 <div class="row">
   <div class="col-xs-12">
-    <button class="btn btn-success" (click)="onNewDocument()">New Document</button>
+    <button class="btn btn-success" (click)="onNewDocument()" (click)="isNewDocument = !isNewDocument">
+     {{isNewDocument ? 'Cancel' : 'New Document'}}
+    </button>
   </div>
 </div>
+
 <hr>
 <div class="row">
   <div class="col-xs-12">

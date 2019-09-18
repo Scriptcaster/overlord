@@ -7,10 +7,4 @@ export class CustomPipe implements PipeTransform {
         let result = value.replace( /([A-Z])/g, " $1" );
         return result.charAt(0).toUpperCase() + result.slice(1);
     }
-    // transform(value: any) {
-    //     if (value.length > 10) {
-    //         return value.substr(0 ,10) + ' ...';
-    //     }
-    //     return value;
-    // }
 }

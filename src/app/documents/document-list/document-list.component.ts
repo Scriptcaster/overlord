@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -8,13 +8,20 @@ import { Document } from '../document.model';
 import * as fromApp from '../../store/app.reducer';
 import * as DocumentActions from '../../documents/store/document.actions';
 
+import { Animations } from '../documents.animations';
+
 @Component({
   selector: 'app-document-list',
-  templateUrl: './document-list.component.html'
+  templateUrl: './document-list.component.html',
+  animations: [ Animations.fade ]
 })
 export class DocumentListComponent implements OnInit, OnDestroy {
+
+  @Output() animate = new EventEmitter<string>();
+
   documents: Document[];
   subscription: Subscription;
+  isNewDocument = false;
 
   constructor(
     private router: Router,
@@ -30,14 +37,16 @@ export class DocumentListComponent implements OnInit, OnDestroy {
       .subscribe((documents: Document[]) => {
         this.documents = documents;
       });
-      this.store.dispatch(new DocumentActions.FetchDocuments()); // my
+      this.store.dispatch(new DocumentActions.FetchDocuments());
   }
 
   onNewDocument() {
     this.router.navigate(['new'], {relativeTo: this.route});
+    this.animate.emit();
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
 }

@@ -1,8 +1,9 @@
 <div class="row">
+  <!-- <a class="btn btn-primary" (click)="onAnimate()">Animate from Parent</a> -->
   <div class="col-md-5">
-    <app-document-list></app-document-list>
+    <app-document-list (animate)="animateParent()"></app-document-list>
   </div>
-  <div class="col-md-7">
+  <div class="col-md-7" [@fadeState]="state">
     <router-outlet></router-outlet>
   </div>
 </div>

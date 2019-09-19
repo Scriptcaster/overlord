@@ -1,18 +1,21 @@
 <div class="row">
   <div class="col-xs-12">
-    <button class="btn btn-success" (click)="onNewDocument()" (click)="isNewDocument = !isNewDocument">
-     {{isNewDocument ? 'Cancel' : 'New Document'}}
+    <button class="btn btn-success" (click)="onNewDocument()">New Document
+     <!-- {{childExample ? 'New Document' : 'Cancel'}} -->
     </button>
   </div>
 </div>
-
 <hr>
+{{ childExample }}
 <div class="row">
   <div class="col-xs-12">
     <app-document-item
       *ngFor="let documentEl of documents; let i = index"
       [document]="documentEl"
-      [index]="i"></app-document-item>
+      [index]="i"
+      (click)="onDocument(i)"
+      >
+      </app-document-item>
   </div>
 </div>
 

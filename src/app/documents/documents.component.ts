@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Animations } from './documents.animations';
 
 @Component({
@@ -6,16 +6,18 @@ import { Animations } from './documents.animations';
   templateUrl: './documents.component.html',
    animations: [ Animations.fade ]
 })
-export class DocumentsComponent implements OnInit {
 
-  state = 'normal';
+export class DocumentsComponent implements OnInit {
+  
+  isOpen = false;
+
   constructor() { }
 
   ngOnInit() {
   }
 
-  animateParent() {
-    this.state == 'normal' ? this.state = 'highlighted' : this.state = 'normal';
+  toggle() {
+    this.isOpen = !this.isOpen;
   }
-
+  
 }

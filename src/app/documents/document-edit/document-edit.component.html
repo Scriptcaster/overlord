@@ -14,20 +14,6 @@
           </form>
         </div>
       </div>
-      
-      <!-- <a class="btn btn-primary" (click)="onAnimate()">Animate!</a>
-      <hr>
-      <div
-        style="width: 100px; height: 100px"
-        [@divState]="state"
-        (@divState.start)="animationStarted($event)"
-        (@divState.done)="animationEnded($event)">
-      </div>
-      <br> -->
-      <!-- <div
-        style="width: 100px; height: 100px"
-        [@wildState]="wildState">
-      </div> -->
 
       <hr>
 
@@ -53,19 +39,8 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="attn">Choose Customer</label>
-            <div>
-              <select class="form-control" formControlName="attn" #attn (change)="onUpdateCustomer()">
-                <option value="">Choose a customer</option>
-                <option *ngFor="let item of items; let i = index" [value]="item.attn">{{ item.attn }}</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
+      <app-select-customer [attn]="attn" (customer)="customer($event)"></app-select-customer>
+
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">

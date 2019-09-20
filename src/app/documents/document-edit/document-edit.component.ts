@@ -20,13 +20,18 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   templateUrl: './document-edit.component.html'
 })
 export class DocumentEditComponent implements OnInit, OnDestroy {
+
+  attn: string;
+
+  childSelector: {attn: string, customer: string};
+
   types = ['Estimate', 'Contract', 'Invoice'];
   typeForm: FormGroup;
 
   id: number;
   editMode = false;
   documentForm: FormGroup;
-  items: Customer[];
+  customers: Customer[];
 
   logo: any = [];
   estimate: any = [];
@@ -62,18 +67,24 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
   ) {}
  
   ngOnInit() {
+    
     this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];
       this.editMode = params['id'] != null;
       this.initForm();
       this.store.dispatch(new CustomersActions.FetchCustomers()); // my 
-
+     
       this.subscription = this.store
       .select('customers')
       .pipe(map(customersState => customersState.customers))
       .subscribe((customers: Customer[]) => {
-        this.items = customers;
+        this.customers = customers;
       });
+      this.attn = this.documentForm.value.attn;
+
+      if (!this.documentForm.value.attn){
+        this.documentForm.controls['attn'].setValue('Choose Customer');
+      }
     });
     this.typeForm = new FormGroup({
       'type': new FormControl('Estimate')
@@ -92,7 +103,7 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
       this.store.dispatch(new DocumentsActions.AddDocument(this.documentForm.value));
     }
     this.onCancel();
-    this.store.dispatch(new DocumentsActions.StoreDocuments()); // to Server
+    this.store.dispatch(new DocumentsActions.StoreDocuments());
   }
 
   onCancel() {
@@ -101,7 +112,7 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
   onDelete() {
     this.store.dispatch(new DocumentsActions.DeleteDocument(this.id));
     this.router.navigate(['/documents']);
-    this.store.dispatch(new DocumentsActions.StoreDocuments()); // to Server
+    // this.store.dispatch(new DocumentsActions.StoreDocuments()); // to Server
   }
   onAddThing() {
     (<FormArray>this.documentForm.get('things')).push(
@@ -216,10 +227,12 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
 
   }
 
-  onUpdateCustomer() {
-    this.items.forEach(element => {
-      if (element.attn === this.documentForm.value.attn){
-        this.documentForm.controls['customer'].setValue(element.customer);
+  customer($selected) {
+    this.documentForm.value.attn = $selected.attn;
+    this.customers.forEach(customerDb => {
+      if (customerDb.attn === this.documentForm.value.attn){
+        this.documentForm.controls['attn'].setValue($selected.attn);
+        this.documentForm.controls['customer'].setValue($selected.customer);
       }
     });
   }

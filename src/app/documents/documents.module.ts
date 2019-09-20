@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule} from "@angular/forms";
 
 import { DocumentsComponent } from './documents.component';
 import { DocumentListComponent } from './document-list/document-list.component';
@@ -10,6 +11,7 @@ import { DocumentEditComponent } from './document-edit/document-edit.component';
 import { CustomPipe } from './document-edit/custom.pipe';
 import { DocumentsRoutingModule } from './documents-routing.module'
 import { SharedModule } from '../shared/shared.module';
+import { SelectCustomerComponent } from './document-edit/select-customer/select-customer.component';
 
 @NgModule({
     declarations:[
@@ -18,12 +20,14 @@ import { SharedModule } from '../shared/shared.module';
         DocumentItemComponent,
         DocumentEditComponent,
         CustomPipe,
+        SelectCustomerComponent,
     ],
     imports: [
         RouterModule, 
         ReactiveFormsModule,
         DocumentsRoutingModule,
-        SharedModule 
+        SharedModule,
+        FormsModule
     ],
 })
 export class DocumentsModule {}

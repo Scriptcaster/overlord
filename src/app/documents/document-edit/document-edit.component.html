@@ -2,18 +2,7 @@
   <div class="col-xs-12">
     <form [formGroup]="documentForm" (ngSubmit)="onSubmit()">
 
-      <div class="row">
-        <div class="col-xs-12">
-          <form [formGroup]="typeForm">
-            <div class="radio" *ngFor="let type of types">
-              <label>
-                <input type="radio" formControlName="type" [value]="type">{{type}}
-              </label>
-            </div>
-            <button type="button" class="btn btn-primary" (click)="generatePdf()">Generate PDF</button>
-          </form>
-        </div>
-      </div>
+      <app-generate-pdf [pdfData]="pdfData" (pdfGen)="pdfGen($event)"></app-generate-pdf>
 
       <hr>
 

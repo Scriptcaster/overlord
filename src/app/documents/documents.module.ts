@@ -12,6 +12,7 @@ import { CustomPipe } from './document-edit/custom.pipe';
 import { DocumentsRoutingModule } from './documents-routing.module'
 import { SharedModule } from '../shared/shared.module';
 import { SelectCustomerComponent } from './document-edit/select-customer/select-customer.component';
+import { GeneratePdfComponent } from './document-edit/generate-pdf/generate-pdf.component';
 
 @NgModule({
     declarations:[
@@ -21,6 +22,7 @@ import { SelectCustomerComponent } from './document-edit/select-customer/select-
         DocumentEditComponent,
         CustomPipe,
         SelectCustomerComponent,
+        GeneratePdfComponent,
     ],
     imports: [
         RouterModule, 

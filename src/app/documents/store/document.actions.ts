@@ -27,13 +27,11 @@ export class AddDocument implements Action {
   
   export class UpdateDocument implements Action {
     readonly type = UPDATE_DOCUMENT;
-  
     constructor(public payload: { index: number; newDocument: Document }) {}
   }
   
   export class DeleteDocument implements Action {
     readonly type = DELETE_DOCUMENT;
-  
     constructor(public payload: number) {}
   }
   

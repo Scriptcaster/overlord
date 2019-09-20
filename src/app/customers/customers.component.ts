@@ -36,7 +36,6 @@ export class CustomersComponent implements OnInit, OnDestroy {
       });
     
     this.store.dispatch(new CustomersActions.FetchCustomers()); // my 
-    console.log(this.store);
     // this.customers = this.store.select('customers');
 
     

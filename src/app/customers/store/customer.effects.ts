@@ -37,7 +37,6 @@ export class CustomerEffects {
         ofType(CustomersActions.STORE_CUSTOMERS),
         withLatestFrom(this.store.select('customers')),
         switchMap(([actionData, customersState]) => {
-            console.log(customersState);
             return this.http.put(
               'https://ng-oren.firebaseio.com/customers.json',
               customersState.customers

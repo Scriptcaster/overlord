@@ -17,8 +17,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-document-edit',
-  templateUrl: './document-edit.component.html'
-})
+  templateUrl: './document-edit.component.html',})
 export class DocumentEditComponent implements OnInit, OnDestroy {
 
   attn: string;
@@ -47,32 +46,42 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
     {name: 'otherServices', value: false},
   ];
 
+  // Playground
+  
+  // @ViewChild('numberInput', { static: false }) numberInput: ElementRef;
+  // #numberInput 
+  // console.log(this.numberInput.nativeElement.value);
+
+  // @ContentChild('contentParagraph', {static: true}) paragraph: ElementRef;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<fromApp.AppState>,
   ) {}
  
-  ngOnInit() {
-    this.route.params.subscribe((params: Params) => {
+  ngOnInit() { 
+    this.route.params.subscribe((params: Params) => {    
       this.id = +params['id'];
       this.editMode = params['id'] != null;
       this.initForm();
-      this.store.dispatch(new CustomersActions.FetchCustomers()); // my 
      
+      this.store.dispatch(new CustomersActions.FetchCustomers()); // my 
+      
       this.subscription = this.store
       .select('customers')
       .pipe(map(customersState => customersState.customers))
       .subscribe((customers: Customer[]) => {
         this.customers = customers;
       });
+      
       this.attn = this.documentForm.value.attn;
       if (!this.documentForm.value.attn){
         this.documentForm.controls['attn'].setValue('Choose Customer');
       }
       this.pdfData = this.documentForm.value;
     });
-
+    
     this.onChanges();
   }
 
@@ -80,7 +89,6 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
     this.documentForm.valueChanges.subscribe(val => {
       this.pdfData = this.documentForm.value;
     });
-    
   }
 
   onSubmit() {
@@ -120,9 +128,13 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
     if (this.storeSub) {
       this.storeSub.unsubscribe();
     }
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   private initForm() {
+    
     let documentNumber = '';
     let documentDate = '';
     let documentAttn = '';
@@ -156,7 +168,6 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
           })
       }))
       .subscribe(document => {
-        console.log(document);
         documentNumber = document.number;
         documentDate = document.date;
         documentAttn = document.attn;
@@ -228,5 +239,9 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  // onFileChanged(event) {
+  //   const file = event.target.files[0]
+  // }
 
 }

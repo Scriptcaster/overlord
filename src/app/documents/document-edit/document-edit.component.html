@@ -28,7 +28,9 @@
         </div>
       </div>
 
-      <app-select-customer [attn]="attn" (customer)="customer($event)"></app-select-customer>
+      <app-select-customer [attn]="attn" (customer)="customer($event)">
+          <label for="attn">New Choose Customer</label>
+      </app-select-customer>
 
       <div class="row">
         <div class="col-xs-12">
@@ -99,7 +101,7 @@
         </div>
       </div>
 
-      <!-- <div class="row">
+      <div class="row">
         <div class="col-xs-12" formArrayName="things">
           <div class="row" *ngFor="let thing of documentForm.get('things').controls; let i = index" [formGroupName]="i" style="margin-top: 10px;">
             <div class="col-xs-10">
@@ -116,7 +118,7 @@
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
 
       <div class="row">
         <div class="col-xs-12">

@@ -24,6 +24,7 @@
     "@ngrx/store": "^8.3.0",
     "bootstrap": "3.3.7",
     "core-js": "^3.1.2",
+    "datauri": "^2.0.0",
     "lodash": "^4.17.15",
     "pdfmake": "^0.1.58",
     "rxjs": "^6.0.0",

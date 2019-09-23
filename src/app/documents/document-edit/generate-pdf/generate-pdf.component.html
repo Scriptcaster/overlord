@@ -1,14 +1,16 @@
-
-
+<!-- <img src="assets/images/image-1.jpg" width="100" alt="image">
+<img src="assets/images/image-2.jpg" width="100" alt="image"> -->
 <div class="row">
-        <div class="col-xs-12">
-    <form [formGroup]="typeForm">
-    <div class="radio" *ngFor="let type of types">
-        <label>
-        <input type="radio" formControlName="type" [value]="type">{{type}}
-        </label>
+    <div class="col-xs-12">
+        <form [formGroup]="typeForm">
+            <div class="radio" *ngFor="let type of types">
+                <label>
+                    <input type="radio" formControlName="type" [value]="type">{{type}}
+                </label>
+            </div>
+            
+            <button type="button" class="btn btn-primary" (click)="newGeneratePdf()">New Generate PDF</button>
+            <ng-content></ng-content>
+        </form>
     </div>
-    <button type="button" class="btn btn-primary" (click)="newGeneratePdf()">New Generate PDF</button>
-</form>
-</div>
 </div>

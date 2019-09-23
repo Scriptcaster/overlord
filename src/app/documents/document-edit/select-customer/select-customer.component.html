@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="form-group">
-            <label for="attn">New Choose Customer</label>
+            <ng-content></ng-content>
             <div>
                 <select class="form-control" [(ngModel)]="selectedCustomer" (change)="onUpdateCustomer()">
                     <option selected="selected">Choose a Customer</option>

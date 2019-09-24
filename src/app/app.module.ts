@@ -19,11 +19,13 @@ import { AuthEffects } from './auth/store/auth.effects';
 import { environment } from '../environments/environment';
 import { DocumentEffects } from './documents/store/document.effects';
 import { CustomerEffects } from './customers/store/customer.effects';
+import { PlaceholderDirective } from './shared/placeholder/placeholder.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    PlaceholderDirective
   ],
   imports: [
     BrowserModule,

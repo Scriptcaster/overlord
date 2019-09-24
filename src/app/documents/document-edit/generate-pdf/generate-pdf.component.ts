@@ -15,6 +15,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 export class GeneratePdfComponent implements OnInit {
   @Input() pdfData;
   @Output() pdfGen = new EventEmitter<any>();
+  // (pdfGen)="pdfGen($event)"
   subtotalPrice;
   tax;
   totalPrice;
@@ -25,9 +26,6 @@ export class GeneratePdfComponent implements OnInit {
   estimate: any = [];
   contract: any = [];
   invoice: any = [];
-  imageOne: string;
-
-  imageTwo: string;
   
   imageArray: any = [];
 
@@ -42,7 +40,7 @@ export class GeneratePdfComponent implements OnInit {
     //   this.imageOne = dataUri;
     //   console.log(this.imageOne);
     // });
-
+   
     this.pdfData.things.forEach(image => {
       this.getDataUri(image.aden, (dataUri: string) => {
         this.imageArray.push(dataUri);
@@ -52,26 +50,36 @@ export class GeneratePdfComponent implements OnInit {
 
   getDataUri = (url: string, callback: Function) => {
     const image = new Image();
-
     image.onload = function() {
         let canvas = document.createElement('canvas');
         canvas.width = (this as any).naturalWidth;
         canvas.height = (this as any).naturalHeight;
-
         if (canvas) {
           const context = canvas.getContext('2d');
           if (context) {
             context.drawImage((this as any), 0, 0);
           }
-
           callback(canvas.toDataURL('image/png'));
         }
     };
-
     image.src = url;
   }
 
   newGeneratePdf() {
+   
+    if (this.pdfData.things[0]) {
+      var tagOne = {text: 'Image 1', alignment: 'center', pageBreak: 'before'};
+      var imageOne = {image: this.imageArray[0], alignment: 'center', fit: [500, 340],};
+      var spacer = {text: ' '};
+    }
+    if (this.pdfData.things[1]) {
+      var tagTwo = {text: 'Image 2', alignment: 'center'};
+      var imageTwo = {image: this.imageArray[1], alignment: 'center', fit: [500, 340],};
+    }
+
+    
+
+    
 
     function formatNumber(num) {
       return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
@@ -155,13 +163,11 @@ export class GeneratePdfComponent implements OnInit {
       {margin: [0, 30, 0, 0], table: { widths: ['*'], body: [
         [{text: 'NOTE',  style: 'tableHeader'}],
         [{text: 'This proposal is valid for 15 days following the date above. Estimated completion date is within 2 to 3 weeks from the date the contract is signed (possibility of delay due to unforeseen circumstances and interferences). A down payment is required when signing the contract (maximum of 3 days for a late payment if not given at signing). Down payment will be 50% of the total price and is non-refundable. The remaining 50% must be given once the service is complete. Any unforeseen or unnegotiated addition of work will be documented and may increase the total price. Please note that all items ordered in iron will rust.', fontSize: 7, alignment: 'center' }]]}},
-        
-        // {text: 'Image 1', alignment: 'center', pageBreak: 'before'},
-        // {image: this.imageArray[0], alignment: 'center', fit: [500, 340],},
-        // {text: ' ' },
-        // {text: 'Image 2', alignment: 'center'},
-        // {image: this.imageArray[1], alignment: 'center', fit: [500, 340],},
-        
+        tagOne,
+        imageOne,
+        spacer,
+        tagTwo,
+        imageTwo
       ],
       styles: {
         tableHeader: {fillColor: '#dddddd', alignment: 'center', fontSize: 10, bold: true },

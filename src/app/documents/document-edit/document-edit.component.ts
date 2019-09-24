@@ -17,7 +17,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-document-edit',
-  templateUrl: './document-edit.component.html',})
+  templateUrl: './document-edit.component.html',
+})
 export class DocumentEditComponent implements OnInit, OnDestroy {
 
   attn: string;

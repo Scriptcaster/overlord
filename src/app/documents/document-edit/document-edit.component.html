@@ -2,7 +2,7 @@
   <div class="col-xs-12">
     <form [formGroup]="documentForm" (ngSubmit)="onSubmit()">
 
-      <app-generate-pdf [pdfData]="pdfData" (pdfGen)="pdfGen($event)"></app-generate-pdf>
+      <app-generate-pdf [pdfData]="pdfData"></app-generate-pdf>
 
       <hr>
 
@@ -103,7 +103,7 @@
 
       <div class="row">
         <div class="col-xs-12" formArrayName="things">
-          <div class="row" *ngFor="let thing of documentForm.get('things').controls; let i = index" [formGroupName]="i" style="margin-top: 10px;">
+          <div class="row" *ngFor="let thing of documentForm.get('things')['controls']; let i = index" [formGroupName]="i" style="margin-top: 10px;">
             <div class="col-xs-10">
               <input type="text" class="form-control" formControlName="aden">
             </div>

@@ -65,8 +65,8 @@ export class GeneratePdfComponent implements OnInit {
     image.src = url;
   }
 
-  newGeneratePdf() {
-   
+  newGeneratePdf($value) {
+   console.log($value);
     if (this.pdfData.things[0]) {
       var tagOne = {text: 'Image 1', alignment: 'center', pageBreak: 'before'};
       var imageOne = {image: this.imageArray[0], alignment: 'center', fit: [500, 340],};
@@ -76,11 +76,6 @@ export class GeneratePdfComponent implements OnInit {
       var tagTwo = {text: 'Image 2', alignment: 'center'};
       var imageTwo = {image: this.imageArray[1], alignment: 'center', fit: [500, 340],};
     }
-
-    
-
-    
-
     function formatNumber(num) {
       return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
@@ -336,15 +331,15 @@ export class GeneratePdfComponent implements OnInit {
         price: { bold: true, alignment: 'center', margin: [-10, 6, 0, 0] },
       }
     }
-
-    switch(this.typeForm.value.type) {
-      case 'Estimate':
+    
+    switch($value) {
+      case 'estimate':
         pdfMake.createPdf( this.estimate ).open();
         break;
-      case 'Contract':
+      case 'contract':
         pdfMake.createPdf( this.contract ).open();
         break;
-      case 'Invoice':
+      case 'invoice':
         pdfMake.createPdf( this.invoice ).open();
         break;
       default:

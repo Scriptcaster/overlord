@@ -17,6 +17,7 @@ export class AuthComponent implements OnDestroy, OnInit {
     isLoginMode = true;
     isLoading = false;
     error: string = null;
+    
     @ViewChild(PlaceholderDirective, { static: false }) alertHost: PlaceholderDirective;
 
     private closeSub: Subscription;
@@ -81,14 +82,14 @@ export class AuthComponent implements OnDestroy, OnInit {
         const alertCmpFactory = this.componentFactoryRsolver.resolveComponentFactory(
             AlertComponent
         );
-        const hostViewContainerRef = this.alertHost.viewContainerRef;
-        hostViewContainerRef.clear();
-        const componentRef = hostViewContainerRef.createComponent(alertCmpFactory);
+        // const hostViewContainerRef = this.alertHost.viewContainerRef;
+        // hostViewContainerRef.clear();
+        // const componentRef = hostViewContainerRef.createComponent(alertCmpFactory);
 
-        componentRef.instance.message = message;
-        this.closeSub = componentRef.instance.close.subscribe(() => {
-            this.closeSub.unsubscribe();
-            hostViewContainerRef.clear();
-        });
+        // componentRef.instance.message = message;
+        // this.closeSub = componentRef.instance.close.subscribe(() => {
+        //     this.closeSub.unsubscribe();
+        //     hostViewContainerRef.clear();
+        // });
     }
 }

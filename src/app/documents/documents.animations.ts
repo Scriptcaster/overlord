@@ -5,7 +5,7 @@ export const Animations = {
             opacity: 1,
         })),
         state('closed', style({
-            opacity: 0,
+            opacity: 1,
         })),
         transition('open <=> closed', animate(800)),
     ])

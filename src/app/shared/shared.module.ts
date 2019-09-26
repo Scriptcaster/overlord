@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 
 import { AlertComponent } from './alert/alert.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { PlaceholderDirective } from './placeholder/placeholder.directive';
 import { LoggingService } from '../logging.service';
 
 @NgModule({
     declarations: [
         AlertComponent,
-        LoadingSpinnerComponent
+        LoadingSpinnerComponent,
+        PlaceholderDirective,
     ],
     imports: [
         CommonModule
@@ -16,7 +18,8 @@ import { LoggingService } from '../logging.service';
     exports: [
         AlertComponent,
         LoadingSpinnerComponent,
-        CommonModule
+        CommonModule,
+        PlaceholderDirective,
     ],
     entryComponents: [AlertComponent],
     providers: [LoggingService]

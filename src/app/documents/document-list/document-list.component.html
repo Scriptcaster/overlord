@@ -1,20 +1,16 @@
-<div class="row">
-  <div class="col-xs-12">
-    <button class="btn btn-success" (click)="onNewDocument()">New Document
-     <!-- {{childExample ? 'New Document' : 'Cancel'}} -->
-    </button>
-  </div>
-</div>
-<hr>
-<div class="row">
-  <div class="col-xs-12">
-    <app-document-item
-      *ngFor="let documentEl of documents; let i = index"
-      [document]="documentEl"
-      [index]="i"
-      (click)="onDocument(i)"
-      >
+<ul class="nav border-bottom border-right bg-light">
+    <a class="nav-link active" (click)="onNewDocument()">New Document</a>
+</ul>
+<div class="row no-gutters">
+  <div class="col-12">
+    <ul class="list-group list-group-flush border-right border-bottom">
+      <app-document-item
+        class="list-group-item list-group-item-action"
+        *ngFor="let documentEl of documents; let i = index"
+        [document]="documentEl"
+        [index]="i"
+        (click)="onDocument(i)">
       </app-document-item>
+    </ul>
   </div>
 </div>
-

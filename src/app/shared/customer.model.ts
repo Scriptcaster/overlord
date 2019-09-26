@@ -1,6 +1,13 @@
 export class Customer {
+  public attn: string;
+  public customer: string;
+
   constructor(
-    public attn: string, 
-    public customer: string
-  ) {}
+    attn: string, 
+    customer: string,
+  ) {
+    this.attn = attn;
+    this.customer = customer;
+  }
+  
 }

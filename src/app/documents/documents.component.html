@@ -1,8 +1,8 @@
-<div class="row">
-  <div class="col-md-5">
+<div class="row no-gutters">
+  <div class="col-4">
     <app-document-list [childExample]="isOpen" (animate)="toggle()"></app-document-list>
   </div>
-  <div class="col-md-7" [@openClose]="isOpen ? 'open' : 'closed'">
+  <div class="col-8" [@openClose]="isOpen ? 'open' : 'closed'">
     <router-outlet></router-outlet>
   </div>
 </div>

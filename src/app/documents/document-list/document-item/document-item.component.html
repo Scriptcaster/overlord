@@ -1,12 +1,10 @@
-<a
-  style="cursor: pointer;"
-  [routerLink]="[index]"
-  routerLinkActive="active"
-  class="list-group-item clearfix">
-  <div class="pull-left">
-    <h4 class="list-group-item-heading">{{ document.number }}</h4>
-    <p class="list-group-item-text">{{ document.attn }}</p>
-  </div>
+<div class="d-flex justify-content-between" [routerLink]="[index]" routerLinkActive="active">
+  <div>
+  <h5 class="list-group-item-heading">{{ document.number }}</h5>
+  <p class="list-group-item-text">{{ document.attn }}</p>
+</div>
+     
+  <span> {{ document.price }}</span>
   <!-- <span class="pull-right">
     <img
       [src]="document.imagePath"
@@ -14,4 +12,4 @@
       class="img-responsive"
       style="max-height: 50px;">
   </span> -->
-</a>
+</div>

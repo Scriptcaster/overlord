@@ -1,15 +1,24 @@
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a routerLink="/" class="navbar-brand">JECCHE</a>
-    </div>
-    <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li routerLinkActive="active" *ngIf="!isAuthenticated"><a routerLink="/auth">Authenticate</a></li>
-        <li routerLinkActive="active" *ngIf="isAuthenticated"><a routerLink="/documents">Documents</a></li>
-        <li routerLinkActive="active" *ngIf="isAuthenticated"><a routerLink="/customers">Customers</a></li>
-        <li *ngIf="isAuthenticated"><a style="cursor: pointer" (click)="onLogout()">Logout</a></li>
+<nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Docflow</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item" routerLinkActive="active" *ngIf="isAuthenticated">
+        <a class="nav-link" routerLink="/documents">Documents</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active" *ngIf="isAuthenticated">
+        <a class="nav-link" routerLink="/customers">Customers</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav">
+        <!-- <li class="nav-item" routerLinkActive="active" *ngIf="!isAuthenticated">
+          <a class="nav-link" href="#" routerLink="/auth">Authenticate</a>
+        </li> -->
+        <li class="nav-item" *ngIf="isAuthenticated">
+          <a class="nav-link" style="cursor: pointer" (click)="onLogout()">Logout</a>
+        </li>
       </ul>
-    </div>
   </div>
 </nav>

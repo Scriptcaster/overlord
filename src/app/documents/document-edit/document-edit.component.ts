@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy  } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -55,20 +55,15 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
 
   // @ContentChild('contentParagraph', {static: true}) paragraph: ElementRef;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private store: Store<fromApp.AppState>,
-  ) {}
- 
+  constructor( private route: ActivatedRoute, private router: Router, private store: Store<fromApp.AppState> ) { console.log('document-edit constructor()');}  
+
   ngOnInit() { 
+    console.log('document-edit ngOnInit()');
     this.route.params.subscribe((params: Params) => {    
       this.id = +params['id'];
       this.editMode = params['id'] != null;
       this.initForm();
-     
       this.store.dispatch(new CustomersActions.FetchCustomers()); // my 
-      
       this.subscription = this.store
       .select('customers')
       .pipe(map(customersState => customersState.customers))
@@ -77,7 +72,10 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
       });
       
       this.attn = this.documentForm.value.attn;
-      if (!this.documentForm.value.attn){
+  
+      if (this.documentForm.value.attn){
+        this.documentForm.controls['attn'].setValue(this.documentForm.value.attn);
+      }  else {
         this.documentForm.controls['attn'].setValue('Choose Customer');
       }
       this.pdfData = this.documentForm.value;
@@ -87,6 +85,7 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
   }
 
   onChanges(): void {
+    console.log('document-edit onChanges()');
     this.documentForm.valueChanges.subscribe(val => {
       this.pdfData = this.documentForm.value;
     });
@@ -232,6 +231,7 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
   }
 
   customer($selected) {
+    console.log('document-edit customer()');
     this.documentForm.value.attn = $selected.attn;
     this.customers.forEach(customerDb => {
       if (customerDb.attn === this.documentForm.value.attn){

@@ -15,7 +15,13 @@ export class AppComponent implements OnInit {
     private loggingService: LoggingService
   ) {}
 
+  five = 5;
+
   ngOnInit() {
+    if(this.five > 4) {
+      this.five = 2;
+    }
+    this.five;
     this.store.dispatch(new AuthActions.AutoLogin());
     this.loggingService.printLog('Hello from AppComponent ngOnInit');
   }

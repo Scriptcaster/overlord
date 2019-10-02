@@ -4,10 +4,9 @@ export class Customer {
 
   constructor(
     attn: string, 
-    customer: string
-  ) {
+    customer: string, 
+    )  {
     this.attn = attn;
     this.customer = customer;
   }
-  
 }

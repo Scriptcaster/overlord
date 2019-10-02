@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-
 import { Document } from '../../document.model';
 
 @Component({
@@ -10,6 +9,5 @@ export class DocumentItemComponent implements OnInit {
   @Input() document: Document;
   @Input() index: number;
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

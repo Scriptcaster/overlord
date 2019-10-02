@@ -6,6 +6,7 @@ const appRoutes: Routes = [
   { path: 'documents', loadChildren: './documents/documents.module#DocumentsModule' },
   { path: 'customers', loadChildren: './customers/customers.module#CustomersModule' },
   { path: 'auth', loadChildren: './auth/auth.module#AuthModule' },
+  // { path: 'documents/:id', loadChildren: './documents/documents.module#DocumentsModule' }
 ];
 
 @NgModule({

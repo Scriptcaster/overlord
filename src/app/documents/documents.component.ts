@@ -4,7 +4,7 @@ import { Animations } from './documents.animations';
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
-   animations: [ Animations.fade ]
+  animations: [ Animations.fade ]
 })
 
 export class DocumentsComponent implements OnInit {

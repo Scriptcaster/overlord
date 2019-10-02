@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Location } from '@angular/common';
 
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
@@ -14,6 +15,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 })
 export class GeneratePdfComponent implements OnInit {
   @Input() pdfData;
+  @Input() images;
   @Output() pdfGen = new EventEmitter<any>();
   // (pdfGen)="pdfGen($event)"
   subtotalPrice;
@@ -29,16 +31,14 @@ export class GeneratePdfComponent implements OnInit {
   
   imageArray: any = [];
 
-  constructor() { }
+  constructor( private location: Location ) { }
 
   ngOnInit() {
     this.typeForm = new FormGroup({
       'type': new FormControl('Estimate')
     });
-    // console.log(this.pdfData.things[0]);
     // this.getDataUri(this.pdfData.things[0].aden, (dataUri: string) => {
     //   this.imageOne = dataUri;
-    //   console.log(this.imageOne);
     // });
    
     this.pdfData.things.forEach(image => {
@@ -46,6 +46,11 @@ export class GeneratePdfComponent implements OnInit {
         this.imageArray.push(dataUri);
       });
     });
+  }
+
+  goBack() {
+    event.preventDefault();
+    this.location.back();
   }
 
   getDataUri = (url: string, callback: Function) => {
@@ -66,15 +71,21 @@ export class GeneratePdfComponent implements OnInit {
   }
 
   newGeneratePdf($value) {
-   console.log($value);
-    if (this.pdfData.things[0]) {
+    event.preventDefault();
+    // var tagOne, imageOne, spacer, tagTwo, imageTwo;
+    // this.images.forEach((image, index) => {
+    //   tagOne = {text: 'Image ' + JSON.stringify(index + 1), alignment: 'center', pageBreak: 'before'};
+    //   imageOne = {image: image, alignment: 'center', fit: [500, 340],};
+    //   spacer = {text: ' '};
+    // });
+    if (this.images[0]) {
       var tagOne = {text: 'Image 1', alignment: 'center', pageBreak: 'before'};
-      var imageOne = {image: this.imageArray[0], alignment: 'center', fit: [500, 340],};
+      var imageOne = {image: this.images[0], alignment: 'center', fit: [500, 340],};
       var spacer = {text: ' '};
     }
-    if (this.pdfData.things[1]) {
+    if (this.images[1]) {
       var tagTwo = {text: 'Image 2', alignment: 'center'};
-      var imageTwo = {image: this.imageArray[1], alignment: 'center', fit: [500, 340],};
+      var imageTwo = {image: this.images[1], alignment: 'center', fit: [500, 340],};
     }
     function formatNumber(num) {
       return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
@@ -324,6 +335,11 @@ export class GeneratePdfComponent implements OnInit {
       {type: 'none', ul: [
       {text: this.totalPrice, style: 'price'},
       ]}]]}},
+      tagOne,
+      imageOne,
+      spacer,
+      tagTwo,
+      imageTwo
       ],
       styles: {
         tableHeader: {fillColor: '#dddddd', alignment: 'center', fontSize: 10, bold: true },

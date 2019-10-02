@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy  } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
@@ -8,6 +9,7 @@ import { map } from 'rxjs/operators';
 import { Customer } from '../../shared/customer.model';
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
+
 import * as fromApp from '../../store/app.reducer';
 import * as DocumentsActions from '../store/document.actions';
 
@@ -21,6 +23,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 })
 export class DocumentEditComponent implements OnInit, OnDestroy {
 
+  url: string;
   attn: string;
   pdfData: any;
 
@@ -47,18 +50,21 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
     {name: 'otherServices', value: false},
   ];
 
-  // Playground
+  images: any;
   
+  // Playground
   // @ViewChild('numberInput', { static: false }) numberInput: ElementRef;
   // #numberInput 
-  // console.log(this.numberInput.nativeElement.value);
-
   // @ContentChild('contentParagraph', {static: true}) paragraph: ElementRef;
 
-  constructor( private route: ActivatedRoute, private router: Router, private store: Store<fromApp.AppState> ) { console.log('document-edit constructor()');}  
-
+  constructor( 
+    private route: ActivatedRoute, 
+    private router: Router, 
+    private store: Store<fromApp.AppState> 
+    ) {}  
+  
   ngOnInit() { 
-    console.log('document-edit ngOnInit()');
+    this.images = new Array;
     this.route.params.subscribe((params: Params) => {    
       this.id = +params['id'];
       this.editMode = params['id'] != null;
@@ -70,14 +76,8 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
       .subscribe((customers: Customer[]) => {
         this.customers = customers;
       });
-      
+     
       this.attn = this.documentForm.value.attn;
-  
-      if (this.documentForm.value.attn){
-        this.documentForm.controls['attn'].setValue(this.documentForm.value.attn);
-      }  else {
-        this.documentForm.controls['attn'].setValue('Choose Customer');
-      }
       this.pdfData = this.documentForm.value;
     });
     
@@ -85,13 +85,13 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
   }
 
   onChanges(): void {
-    console.log('document-edit onChanges()');
     this.documentForm.valueChanges.subscribe(val => {
       this.pdfData = this.documentForm.value;
     });
   }
 
   onSubmit() {
+    // event.preventDefault();
     if (this.editMode) {
       this.store.dispatch(
         new DocumentsActions.UpdateDocument({
@@ -104,12 +104,15 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
     }
     this.onCancel();
     this.store.dispatch(new DocumentsActions.StoreDocuments());
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   onCancel() {
+    event.preventDefault();
     this.router.navigate(['../'], { relativeTo: this.route });
   }
   onDelete() {
+    event.preventDefault();
     this.storeSub.unsubscribe();
     this.store.dispatch(new DocumentsActions.DeleteDocument(this.id));
     this.store.dispatch(new DocumentsActions.StoreDocuments());
@@ -120,6 +123,17 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
       new FormGroup({ aden: new FormControl(null, Validators.required) })
     );
   }
+
+  onSelectFile(event) {
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event: Event) => {
+        this.images.push(reader.result);
+     };
+    }
+  }
+
   onDeleteThing(index: number) {
     (<FormArray>this.documentForm.get('things')).removeAt(index);
   }
@@ -128,9 +142,9 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
     if (this.storeSub) {
       this.storeSub.unsubscribe();
     }
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    // if (this.subscription) {
+    //   this.subscription.unsubscribe();
+    // }
   }
 
   private initForm() {
@@ -156,13 +170,12 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
     let documentNote = 'Estimate time for project completion 4 to 6 weeks';
     let documentPrice = 0;
     let documentTax = false;
+    let documentImage = '';
 
     let documentThings = new FormArray([]);
 
     if (this.editMode) {
-      this.storeSub = this.store
-      .select('documents')
-      .pipe(map(documentState => {
+      this.storeSub = this.store.select('documents').pipe(map(documentState => {
           return documentState.documents.find((document, index) => {
             return index === this.id;
           })
@@ -189,7 +202,7 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
         documentNote = document.note;
         documentPrice = document.price;
         documentTax = document.tax;
-
+        documentImage = document.image;
         if (document['things']) {
           for (let thing of document.things) {
             documentThings.push( new FormGroup({ aden: new FormControl(thing.aden, Validators.required)}) );
@@ -224,25 +237,16 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
       note: new FormControl(documentNote, Validators.required),
       price: new FormControl(documentPrice, Validators.required),
       tax: new FormControl(documentTax, Validators.required),
+      image: new FormControl(documentImage, Validators.required),
 
       things: documentThings
     });
-
   }
 
   customer($selected) {
-    console.log('document-edit customer()');
-    this.documentForm.value.attn = $selected.attn;
-    this.customers.forEach(customerDb => {
-      if (customerDb.attn === this.documentForm.value.attn){
-        this.documentForm.controls['attn'].setValue($selected.attn);
-        this.documentForm.controls['customer'].setValue($selected.customer);
-      }
-    });
+    const selected = this.customers.filter(customer => customer.attn === $selected.attn);
+    this.documentForm.controls['attn'].setValue(selected[0].attn);
+    this.documentForm.controls['customer'].setValue(selected[0].customer);
   }
-
-  // onFileChanged(event) {
-  //   const file = event.target.files[0]
-  // }
 
 }

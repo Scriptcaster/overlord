@@ -1,0 +1,11 @@
+<div class="d-flex w-100 justify-content-md-end justify-content-between">
+    <a class="nav-link active" href="" (click)="onNewCustomer()">New</a>                 
+    </div>
+    <ul class="list-group list-group-flush">
+    <app-customer-item
+        *ngFor="let customer of customers; let i = index"
+        [customer]="customer"
+        [index]="i"
+        (click)="onCustomer(i)"
+    ></app-customer-item>
+</ul>

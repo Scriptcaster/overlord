@@ -10,6 +10,7 @@ import { Customer } from '../../shared/customer.model';
 
 @Injectable()
 export class CustomerEffects {
+
     @Effect()
     fetchCustomers = this.actions$.pipe(
         ofType(CustomersActions.FETCH_CUTOMERS),
@@ -21,17 +22,14 @@ export class CustomerEffects {
         }),
         map(customers => {
             return customers.map(customer => {
-                return {
-                ...customer,
-                // customers: customer.customers ? customer.customers : []
-                };
+                return { ...customer };
             });
         }),
         map(customers => {
             return new CustomersActions.SetCustomers(customers);
         })
     );
-    
+
     @Effect({dispatch: false})
     storeCustomers = this.actions$.pipe(
         ofType(CustomersActions.STORE_CUSTOMERS),
@@ -49,5 +47,6 @@ export class CustomerEffects {
         private actions$: Actions, 
         private http: HttpClient, 
         private store: Store<fromApp.AppState>
-    ) {}
+    ) {
+    }
 }

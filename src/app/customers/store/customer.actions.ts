@@ -27,12 +27,12 @@ export class AddCustomers implements Action {
 
 export class UpdateCustomer implements Action {
     readonly type = UPDATE_CUSTOMER;
-
-    constructor( public payload: Customer ) {}
+    constructor(public payload: { index: number; newCustomer: Customer }) {}
 }
 
 export class DeleteCustomer implements Action {
     readonly type = DELETE_CUSTOMER;
+    constructor(public payload: number) {}
 }
 
 export class StartEdit implements Action {

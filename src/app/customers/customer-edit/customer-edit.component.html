@@ -1,30 +1,33 @@
-<div class="row">
-  <div class="col-xs-12">
-    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-      <div class="row">
-          <div class="col-md-12">
+<!-- <ul class="nav bg-light border-bottom border-right">
+  <a class="nav-link active">Customers</a>                  
+</ul> -->
+
+<div class="row no-gutters">
+  <div class="col-12">
+    
+      <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+
+          <div class="d-flex w-100 justify-content-md-end justify-content-between border-bottom">
+              <a href="" class="nav-link active d-sm-block d-md-none" (click)="goBack()">Back</a>
+              <ul class="nav">
+                <a class="nav-link active" href="" (click)="onCancel()">Cancel</a>
+                <a class="nav-link active" href="" (click)="onDelete()">Delete</a>
+                <a class="nav-link active" href="" (click)="onSubmit()">Save</a>
+              </ul>   
+          </div>
+
+        <!-- <form class="px-4 py-4" (ngSubmit)="onSubmit(f)" #f="ngForm"> -->
+            <div class="container py-4 px-4">
           <label for="attn">Attn.</label>
-          <input type="text" id="attn" class="form-control" name="attn" ngModel required>
+          <input type="text" id="attn" class="form-control" name="attn" formControlName="attn">
+          <label class="mt-4" for="customer">Customer</label>
+          <textarea type="text" id="customer" class="form-control mb-2" rows="8" name="customer" formControlName="customer"></textarea>
+          
+          <!-- <button class="btn btn-success my-4 mr-2" type="submit" [disabled]="!f.valid">{{ editMode ? 'Update' : 'Add' }}</button> -->
+          <!-- <button class="btn btn-danger mr-2" type="button" (click)="onDelete()" *ngIf="editMode">Delete</button> -->
+          <!-- <button class="btn btn-danger" type="button" (click)="onClear()">Clear</button> -->
         </div>
-        <div class="col-md-12">
-          <label for="customer">Customer</label>
-          <textarea type="text" id="customer" class="form-control" name="customer" ngModel required></textarea>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12 btn-group">
-          <button
-            class="btn btn-success"
-            type="submit"
-            [disabled]="!f.valid">{{ editMode ? 'Update' : 'Add' }}</button>
-          <button
-            class="btn btn-danger"
-            type="button"
-            (click)="onDelete()"
-            *ngIf="editMode">Delete</button>
-          <button class="btn btn-danger" type="button" (click)="onClear()">Clear</button>
-        </div>
-      </div>
-    </form>
+      </form>
+   
   </div>
 </div>

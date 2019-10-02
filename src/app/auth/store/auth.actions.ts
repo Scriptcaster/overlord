@@ -34,13 +34,11 @@ export class LoginStart implements Action {
 
 export class AuthenticateFail implements Action {
   readonly type = AUTHENTICATE_FAIL;
-
   constructor(public payload: string) {}
 }
 
 export class SignupStart implements Action {
   readonly type = SIGNUP_START;
-
   constructor(public payload: { email: string; password: string }) {}
 }
 

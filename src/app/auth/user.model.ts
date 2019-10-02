@@ -13,4 +13,3 @@ export class User {
         return this._token;
     }
 }
-

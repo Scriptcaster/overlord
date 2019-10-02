@@ -32,16 +32,17 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.store.dispatch(new DocumentActions.FetchDocuments());
     this.subscription = this.store
     .select('documents')
     .pipe(map(documentsState => documentsState.documents))
     .subscribe((documents: Document[]) => {
-      this.documents = documents;
+      this.documents = documents.sort((a,b) => (a.number < b.number ? 1 : -1));
     });
-    this.store.dispatch(new DocumentActions.FetchDocuments());
   }
 
   onNewDocument() {
+    event.preventDefault();
     this.router.navigate(['new'], {relativeTo: this.route});
     if(!this.childExample) {
       this.animate.emit();
@@ -49,7 +50,8 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   }
 
   onDocument(i) {
-     if(!this.childExample) {
+    // console.log('click');
+    if(!this.childExample) {
       this.animate.emit();
     }
   }

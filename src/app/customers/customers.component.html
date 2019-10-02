@@ -1,13 +1,9 @@
-<div class="row">
-  <div class="col-xs-10">
-    <app-customer-edit></app-customer-edit>
-    <hr>
-    <ul class="list-group">
-      <a class="list-group-item" style="cursor: pointer"
-        *ngFor="let customer of customers; let i = index"
-        (click)="onEditItem(i)">
-        {{ customer.attn }} ({{ customer.customer }})
-      </a>
-    </ul>
+<div class="row no-gutters">
+  <div class="col-md-3 d-none d-md-flex">
+    <app-customer-list class="w-100 border-right" [childExample]="isOpen" (animate)="toggle()"></app-customer-list>
+  </div>
+  <div class="col-md-9">
+    <router-outlet></router-outlet>
+    <!-- <app-customer-edit></app-customer-edit> -->
   </div>
 </div>

@@ -12,10 +12,7 @@ import { Customer } from '../../../shared/customer.model';
   selector: 'app-select-customer',
   templateUrl: './select-customer.component.html'
 })
-export class SelectCustomerComponent implements 
-OnInit, 
-OnChanges 
-{
+export class SelectCustomerComponent implements OnInit, OnChanges {
 
   @Input() attn: string;
   @Output() customer = new EventEmitter<{attn: string, customer: string}>();
@@ -26,10 +23,9 @@ OnChanges
 
   private subscription: Subscription;
 
-  constructor(private store: Store<fromApp.AppState>,) { console.log('select-customer constructor'); }
+  constructor(private store: Store<fromApp.AppState>,) {}
 
   ngOnInit() {
-    console.log('select-customer ngOnInit()');
     this.subscription = this.store
     .select('customers')
     .pipe(map(customersState => customersState.customers))
@@ -39,13 +35,10 @@ OnChanges
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('select-customer ngOnChanges()');
-    console.log(changes);
     this.selectedCustomer = this.attn;
   }
 
   onUpdateCustomer() {
-    console.log('select-customer onUpdateCustomer()');
     this.customers.forEach(customerDb => {
       if (customerDb.attn === this.selectedCustomer){
         this.customer.emit({ attn: customerDb.attn, customer: customerDb.customer });

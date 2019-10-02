@@ -1,99 +1,119 @@
 <div class="row no-gutters">
   <div class="col-12">
+    
     <form [formGroup]="documentForm" (ngSubmit)="onSubmit()">
-
-      <app-generate-pdf [pdfData]="pdfData"></app-generate-pdf>
+      
+      <app-generate-pdf [pdfData]="pdfData" [images]="images" class="d-flex border-bottom bg-light">
+        <ul class="nav d-none d-md-flex w-100">
+          <a class="nav-link active" href="" (click)="onCancel()">Cancel</a>
+          <a class="nav-link active" href="" (click)="onDelete()">Delete</a>
+          <a class="nav-link active" href="" (click)="onSubmit()">Save</a>
+        </ul>   
+      </app-generate-pdf>
 
       <div class="container py-4 px-4">
-      <div class="row">
-        <div class="col-md">
-          <div class="form-group">
-            <label for="number">Number</label>
-            <input type="text" id="number" formControlName="number" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="date">Date</label>
-            <input type="text" id="date" formControlName="date" class="form-control">
-          </div>
-          <app-select-customer [attn]="attn" (customer)="customer($event)">
-              <label for="attn">Choose Customer</label>
-          </app-select-customer>
-        </div>
-        <div class="col-md">
-          <div class="form-group">
-            <label for="customer">Customer Information</label>
-            <textarea class="form-control" rows="8" formControlName="customer"></textarea>
-          </div>
-        </div>
-      </div>
-
-      <label>Summary of services:</label>
-      <div class="row services" formGroupName="services">
-        <div class="form-check col-3" *ngFor="let service of services; let i = index">
-          <input  class="form-check-input" type="checkbox" formControlName="{{service.name}}">
-          <label class="form-check-label">{{ service.name | custom }}</label>
-        </div>
-      </div>
-        
-      <hr>
-
-      <div class="row">
-        <div class="col-md">
-          <div class="form-group">
-            <label for="worksite">Worksite</label>
-            <textarea type="text" id="worksite" formControlName="worksite" class="form-control"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="description">Note</label>
-            <input type="text" id="note" class="form-control" formControlName="note">
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" formControlName="tax">
-            <label>Tax Included</label>
-          </div>
-          <div class="form-group">
-            <label for="description">Price</label>
-            <input type="number" id="note" class="form-control" formControlName="price">
-          </div>
-        </div>
-        <div class="col-md">
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea type="text" id="description" class="form-control" rows="10" formControlName="description"></textarea>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12" formArrayName="things">
-          <div class="row" *ngFor="let thing of documentForm.get('things')['controls']; let i = index" [formGroupName]="i" style="margin-top: 10px;">
-            <div class="col-10">
-              <input type="text" class="form-control" formControlName="aden">
+        <div class="row">
+          <div class="col-md">
+            <div class="form-group">
+              <label for="number">Number</label>
+              <input type="text" id="number" formControlName="number" class="form-control">
             </div>
-            <div class="col-2">
-              <button type="button" class="btn btn-danger" (click)="onDeleteThing(i)">X</button>
+            <div class="form-group">
+              <label for="date">Date</label>
+              <input type="text" id="date" formControlName="date" class="form-control">
             </div>
+            <app-select-customer [attn]="attn" (customer)="customer($event)">
+                <label for="attn">Choose Customer</label>
+            </app-select-customer>
           </div>
-          <hr>
-          <div class="row">
-            <div class="col-12">
-              <button type="button"class="btn btn-success" (click)="onAddThing()">Add Image</button>
+          <div class="col-md">
+            <div class="form-group">
+              <label for="customer">Customer Information</label>
+              <textarea class="form-control" rows="8" formControlName="customer"></textarea>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-12">
-          <div class="btn-group">
-            <button type="submit" class="btn btn-success">Save</button>
-            <button type="button" class="btn btn-primary" (click)="onCancel()">Cancel</button>
-            <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
+        <label>Summary of services:</label>
+        <div class="row services ml-0" formGroupName="services">
+          <div class="form-check col-md-3" *ngFor="let service of services; let i = index">
+            <input  class="form-check-input" type="checkbox" formControlName="{{service.name}}">
+            <label class="form-check-label text-nowrap small">{{ service.name | custom }}</label>
           </div>
         </div>
-      </div>
+          
+        <hr>
 
-    </div>
+        <div class="row">
+          <div class="col-md">
+            <div class="form-group">
+              <label for="worksite">Worksite</label>
+              <textarea type="text" id="worksite" formControlName="worksite" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="description">Note</label>
+              <input type="text" id="note" class="form-control" formControlName="note">
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" formControlName="tax">
+              <label class="small">Tax Included</label>
+            </div>
+            <div class="form-group">
+              <label for="description">Price</label>
+              <input type="number" id="note" class="form-control" formControlName="price">
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea type="text" id="description" class="form-control" rows="10" formControlName="description"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+          <div class="col-12">
+              <label class="btn-upload mt-2">
+                <input type="file" accept="image/*" (change)="onSelectFile($event)">
+                <button type="button" class="btn btn-primary">Upload</button>
+              </label>
+          </div>
+        </div>
+       
+        <div class="row">
+          <div class="col-6"  *ngFor="let image of images">
+              <img class="img-thumbnail" [src]="image" height="20">
+          </div>
+        </div>
+
+        <ul class="nav d-sm-block d-md-none" style="justify-content: flex-end;">
+          <a class="nav-link active" href="" (click)="onCancel()">Cancel</a>
+          <a class="nav-link active" href="" (click)="onDelete()">Delete</a>
+          <a class="nav-link active" href="" (click)="onSubmit()">Save</a>
+        </ul>   
+
+        <!-- <div class="row">
+          <div class="col-12" formArrayName="things">
+            <div class="row" *ngFor="let thing of documentForm.get('things')['controls']; let i = index" [formGroupName]="i" style="margin-top: 10px;">
+              <div class="col-10">
+                <input type='text' class="form-control" formControlName="aden">
+              </div>
+              <div class="col-2">
+                <button type="button" class="btn btn-danger" (click)="onDeleteThing(i)">X</button>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-12">
+                <button type="button" class="btn btn-success mb-4" (click)="onAddThing()">Add Image</button>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+      </div>
     </form>
   </div>
 </div>

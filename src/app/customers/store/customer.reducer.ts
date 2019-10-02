@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import { Customer } from '../../shared/customer.model';
 import * as CustomersActions from './customer.actions';
 
@@ -36,29 +35,25 @@ export function customerReducer(
                 customers: [...state.customers, ...action.payload]
             };
         case CustomersActions.UPDATE_CUSTOMER:
-            const customer = state.customers[state.editedCustomerIndex];
             const updatedCustomer = {
-                ...customer,
-                ...action.payload
-            };
-            const updatedCustomers = [...state.customers];
-            updatedCustomers[state.editedCustomerIndex] = updatedCustomer;
-
-            return {
+                ...state.customers[action.payload.index],
+                ...action.payload.newCustomer
+              };
+        
+              const updatedCustomers = [...state.customers];
+              updatedCustomers[action.payload.index] = updatedCustomer;
+        
+              return {
                 ...state,
-                customers: updatedCustomers,
-                editedCustomerIndex: -1,
-                editedCustomer: null
-            };
+                customers: updatedCustomers
+              };
         case CustomersActions.DELETE_CUSTOMER:
             return {
                 ...state,
-                customers: state.customers.filter((ig, igIndex) => {
-                    return igIndex !== state.editedCustomerIndex;
-                }),
-                editedCustomerIndex: -1,
-                editedCustomer: null
-            };
+                customers: state.customers.filter((customer, index) => {
+                  return index !== action.payload;
+                })
+              };
         case CustomersActions.START_EDIT:
             return {
                 ...state,

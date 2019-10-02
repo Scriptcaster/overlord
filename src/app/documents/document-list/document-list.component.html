@@ -1,11 +1,10 @@
-<ul class="nav border-bottom border-right bg-light">
-    <a class="nav-link active" (click)="onNewDocument()">New Document</a>
+<ul class="nav border-bottom bg-light">
+    <a class="nav-link active" href="" (click)="onNewDocument()">New</a>
 </ul>
 <div class="row no-gutters">
   <div class="col-12">
-    <ul class="list-group list-group-flush border-right border-bottom">
+    <ul class="list-group list-group-flush">
       <app-document-item
-        class="list-group-item list-group-item-action"
         *ngFor="let documentEl of documents; let i = index"
         [document]="documentEl"
         [index]="i"

@@ -1,29 +1,9 @@
-<!-- <img src="assets/images/image-1.jpg" width="100" alt="image">
-<img src="assets/images/image-2.jpg" width="100" alt="image"> -->
-
-        <!-- <div class="container"> -->
-            <!-- <form [formGroup]="typeForm">
-                <div class="row">
-                    <div class="col align-self-start">
-                        <div class="form-check-inline" *ngFor="let type of types">
-                            <input class="form-check-input" type="radio" formControlName="type" [value]="type">
-                            <label class="form-check-label" for="inlineCheckbox1">{{type}}</label>
-                        </div>
-                    </div>
-                    <div class="col align-self-end">
-                        <button type="button" class="btn btn-primary" (click)="newGeneratePdf()">New Generate PDF</button>
-                    </div>
-                </div>
-                <ng-content></ng-content> 
-            </form> -->
-                <ul class="nav justify-content-end border-bottom bg-light">
-                   
-                    <a class="nav-link active" (click)="newGeneratePdf('estimate')">Estimate</a>
-                
-                    <a class="nav-link active" (click)="newGeneratePdf('contract')">Contract</a>
-                
-                    <a class="nav-link active" (click)="newGeneratePdf('invoice')">Invoice</a>
-                  
-                </ul>
-        <!-- </div> -->
-
+<ng-content></ng-content>
+<div class="d-flex w-100 justify-content-md-end justify-content-between">
+    <a href="" class="nav-link active d-sm-block d-md-none" (click)="goBack()">Back</a>
+    <ul class="nav">
+        <a href="" class="nav-link active"  (click)="newGeneratePdf('estimate')">Estimate</a>
+        <a href="" class="nav-link active"  (click)="newGeneratePdf('contract')">Contract</a>
+        <a href="" class="nav-link active"  (click)="newGeneratePdf('invoice')">Invoice</a>
+    </ul>
+</div>

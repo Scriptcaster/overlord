@@ -20,6 +20,9 @@ import { environment } from '../environments/environment';
 import { DocumentEffects } from './documents/store/document.effects';
 import { CustomerEffects } from './customers/store/customer.effects';
 
+import { HeroesModule } from './heroes/heroes.module';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +39,8 @@ import { CustomerEffects } from './customers/store/customer.effects';
     StoreRouterConnectingModule.forRoot(),
     SharedModule,
     CoreModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HeroesModule
   ],
   bootstrap: [AppComponent],
 })

@@ -19,7 +19,7 @@
                 <input type="password" id="password" class="form-control" ngModel name="password" required minlength="6">
             </div>
             <div class="pt-4">
-                <button type="submit" class="btn btn-primary" [disabled]="!authForm.valid">{{isLoginMode ? 'Login' : 'Sign Up'}}</button>
+                <button type="submit" class="btn btn-primary mr-4" [disabled]="!authForm.valid">{{isLoginMode ? 'Login' : 'Sign Up'}}</button>
                 <button type="button" class="btn btn-primary" (click)=onSwitchMode()>Switch to {{ isLoginMode ? 'Sign Up' : 'Login'}}</button>
             </div>
         </form>

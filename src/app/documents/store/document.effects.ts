@@ -10,13 +10,27 @@ import * as fromApp from '../../store/app.reducer';
 
 @Injectable()
 export class DocumentEffects {
+
+    userId: any;
+
+    // fetchUser = this.store.select('auth').pipe(map(authState => 
+    //     authState.user)).subscribe(user => {
+    //         this.userId = user.id;
+    //         console.log(this.userId);
+    // });
+
     @Effect()
     fetchDocuments = this.actions$.pipe(
         ofType(DocumentsActions.FETCH_DOCUMENTS),
         switchMap(() => {
-            return this.http
-            .get<Document[]>(
-              'https://ng-oren.firebaseio.com/documents.json'
+
+            this.store.select('auth').pipe(map(authState => authState.user)).subscribe(user => {
+                if (user) this.userId = user.id;
+            });
+
+            return this.http.get<Document[]>(
+            //   'https://ng-oren.firebaseio.com/documents.json'
+              'https://ng-oren.firebaseio.com/users/' + this.userId + '/documents.json'
             );
         }),
         map(documents => {
@@ -31,14 +45,19 @@ export class DocumentEffects {
             return new DocumentsActions.SetDocuments(documents);
         })
     );
-    
+
     @Effect({dispatch: false})
     storeDocuments = this.actions$.pipe(
         ofType(DocumentsActions.STORE_DOCUMENTS),
         withLatestFrom(this.store.select('documents')),
         switchMap(([actionData, documentsState]) => {
+
+            this.store.select('auth').pipe(map(authState => authState.user)).subscribe(user => {
+                if (user) this.userId = user.id;
+            });
+
             return this.http.put(
-              'https://ng-oren.firebaseio.com/documents.json',
+              'https://ng-oren.firebaseio.com/users/' + this.userId + '/documents.json',
               documentsState.documents
             )
         })
@@ -50,4 +69,5 @@ export class DocumentEffects {
         private http: HttpClient, 
         private store: Store<fromApp.AppState>
     ) {}
+
 }

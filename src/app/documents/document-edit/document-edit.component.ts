@@ -23,6 +23,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 })
 export class DocumentEditComponent implements OnInit, OnDestroy {
 
+  private userSub: Subscription; 
+
   url: string;
   attn: string;
   pdfData: any;

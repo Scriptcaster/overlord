@@ -31,7 +31,7 @@ let routeMobile: Routes = [
 let routeDesktop: Routes = [
     { path: '', component: CustomersComponent, canActivate: [AuthGuard],
         children: [
-            // { path: '', component: CustomerListComponent },
+            { path: '', component: CustomerEditComponent },
             { path: 'new', component: CustomerEditComponent },
             { path: ':id', component: CustomerEditComponent, resolve: [CustomersResolverService]  },
         ]

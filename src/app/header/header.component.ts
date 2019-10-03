@@ -16,6 +16,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isAuthenticated = false;
   private userSub: Subscription; 
 
+  userEmail: string;
+
   constructor(
     private store: Store<fromApp.AppState>
   ) {}
@@ -24,6 +26,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userSub = this.store.select('auth')
     .pipe(map(authState => authState.user))
     .subscribe(user => {
+      if (user) this.userEmail = user.email;
       this.isAuthenticated = !!user;
     });
   }

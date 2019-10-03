@@ -142,7 +142,8 @@ export class CustomerEditComponent implements OnInit, OnDestroy {
 
   goBack() {
     event.preventDefault();
-    this.location.back();
+    // this.location.back
+    this.router.navigate(['/customers']);
   }
 
   ngOnDestroy() {

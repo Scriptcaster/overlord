@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Location } from '@angular/common';
 
@@ -31,7 +32,7 @@ export class GeneratePdfComponent implements OnInit {
   
   imageArray: any = [];
 
-  constructor( private location: Location ) { }
+  constructor( private location: Location, private router: Router ) { }
 
   ngOnInit() {
     this.typeForm = new FormGroup({
@@ -50,7 +51,8 @@ export class GeneratePdfComponent implements OnInit {
 
   goBack() {
     event.preventDefault();
-    this.location.back();
+    // this.location.back();
+    this.router.navigate(['/documents']);
   }
 
   getDataUri = (url: string, callback: Function) => {

@@ -29,7 +29,7 @@ let routeMobile: Routes = [
 let routeDesktop: Routes = [
     { path: '', component: DocumentsComponent, canActivate: [AuthGuard],
         children: [
-            // { path: '', component: DocumentsComponent },
+            { path: '', component: DocumentEditComponent },
             { path: 'new', component: DocumentEditComponent },
             { path: ':id', component: DocumentEditComponent, resolve: [DocumentsResolverService] },
         ]

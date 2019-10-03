@@ -11,13 +11,19 @@ import { Customer } from '../../shared/customer.model';
 @Injectable()
 export class CustomerEffects {
 
+    userId: any;
+
     @Effect()
     fetchCustomers = this.actions$.pipe(
         ofType(CustomersActions.FETCH_CUTOMERS),
         switchMap(() => {
+            this.store.select('auth').pipe(map(authState => authState.user)).subscribe(user => {
+                if (user) this.userId = user.id;
+            });
             return this.http
             .get<Customer[]>(
-              'https://ng-oren.firebaseio.com/customers.json'
+                'https://ng-oren.firebaseio.com/users/' + this.userId + '/customers.json'
+            //   'https://ng-oren.firebaseio.com/customers.json'
             );
         }),
         map(customers => {
@@ -35,8 +41,12 @@ export class CustomerEffects {
         ofType(CustomersActions.STORE_CUSTOMERS),
         withLatestFrom(this.store.select('customers')),
         switchMap(([actionData, customersState]) => {
+            this.store.select('auth').pipe(map(authState => authState.user)).subscribe(user => {
+                if (user) this.userId = user.id;
+            });
             return this.http.put(
-              'https://ng-oren.firebaseio.com/customers.json',
+                'https://ng-oren.firebaseio.com/users/' + this.userId + '/customers.json',
+            //   'https://ng-oren.firebaseio.com/customers.json',
               customersState.customers
             )
         })

@@ -4,7 +4,7 @@
     <form [formGroup]="documentForm" (ngSubmit)="onSubmit()">
       
       <app-generate-pdf [pdfData]="pdfData" [images]="images" class="d-flex border-bottom bg-light">
-        <ul class="nav d-none d-md-flex w-100">
+        <ul class="nav d-none d-md-flex w-100 justify-content-end">
           <a class="nav-link active" href="" (click)="onCancel()">Cancel</a>
           <a class="nav-link active" href="" (click)="onDelete()">Delete</a>
           <a class="nav-link active" href="" (click)="onSubmit()">Save</a>

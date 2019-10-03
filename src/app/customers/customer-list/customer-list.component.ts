@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, EventEmitter, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { Customer } from '../../shared/customer.model';
@@ -26,7 +25,6 @@ export class CustomerListComponent implements OnInit {
   constructor(
     private loggingService: LoggingService,
     private store: Store<fromApp.AppState>,
-    private location: Location,
     private router: Router,
     private route: ActivatedRoute,
   ) { }
@@ -48,11 +46,6 @@ export class CustomerListComponent implements OnInit {
     if(!this.childExample) {
       this.animate.emit();
     }
-  }
-
-  goBack() {
-    event.preventDefault();
-    this.location.back();
   }
 
   onCustomer(i) {

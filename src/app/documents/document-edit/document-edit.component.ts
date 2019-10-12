@@ -67,8 +67,9 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
   
   ngOnInit() { 
     this.images = new Array;
-    this.route.params.subscribe((params: Params) => {    
+    this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];
+      console.log(this.id);    
       this.editMode = params['id'] != null;
       this.initForm();
       this.store.dispatch(new CustomersActions.FetchCustomers()); // my 

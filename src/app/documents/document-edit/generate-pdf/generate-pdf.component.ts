@@ -81,7 +81,7 @@ export class GeneratePdfComponent implements OnInit {
     //   spacer = {text: ' '};
     // });
     if (this.images[0]) {
-      var tagOne = {text: 'Image 1', alignment: 'center', pageBreak: 'before'};
+      var tagOne = {text: 'Image 3', alignment: 'center', pageBreak: 'before'};
       var imageOne = {image: this.images[0], alignment: 'center', fit: [500, 340],};
       var spacer = {text: ' '};
     }

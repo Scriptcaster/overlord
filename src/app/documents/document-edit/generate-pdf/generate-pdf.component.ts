@@ -81,13 +81,28 @@ export class GeneratePdfComponent implements OnInit {
     //   spacer = {text: ' '};
     // });
     if (this.images[0]) {
-      var tagOne = {text: 'Image 3', alignment: 'center', pageBreak: 'before'};
+      var tagOne = {text: 'Image 1', alignment: 'center', pageBreak: 'before'};
       var imageOne = {image: this.images[0], alignment: 'center', fit: [500, 340],};
-      var spacer = {text: ' '};
     }
     if (this.images[1]) {
-      var tagTwo = {text: 'Image 2', alignment: 'center'};
+      var tagTwo = { text: 'Image 2', alignment: 'center', margin: [0, 10, 0, 0]};
       var imageTwo = {image: this.images[1], alignment: 'center', fit: [500, 340],};
+    }
+    if (this.images[2]) {
+      var tagThree = { text: 'Image 3', alignment: 'center', pageBreak: 'before' };
+      var imageThree = { image: this.images[2], alignment: 'center', fit: [500, 340], };
+    }
+    if (this.images[3]) {
+      var tagFour = { text: 'Image 4', alignment: 'center', margin: [0, 10, 0, 0] };
+      var imageFour = { image: this.images[3], alignment: 'center', fit: [500, 340], };
+    }
+    if (this.images[4]) {
+      var tagFive = { text: 'Image 5', alignment: 'center', pageBreak: 'before' };
+      var imageFive = { image: this.images[4], alignment: 'center', fit: [500, 340], };
+    }
+    if (this.images[5]) {
+      var tagSix = { text: 'Image 6', alignment: 'center', margin: [0, 10, 0, 0] };
+      var imageSix = { image: this.images[5], alignment: 'center', fit: [500, 340], };
     }
     function formatNumber(num) {
       return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
@@ -96,15 +111,136 @@ export class GeneratePdfComponent implements OnInit {
     this.subtotalPrice = '$' + formatNumber(this.pdfData.price.toFixed(2));
    
     if (this.pdfData.tax) {
-      this.tax = '-';
+      this.tax = 'Exempt';
       this.totalPrice = this.subtotalPrice;
       this.halfPrice = '$' + formatNumber(((this.pdfData.price)/2).toFixed(2));
     } else {
       this.tax = '$' + formatNumber((this.pdfData.price * 0.06625).toFixed(2)); 
       this.totalPrice = '$' + formatNumber((this.pdfData.price + this.pdfData.price * 0.06625).toFixed(2));
-      this.halfPrice = '$' + formatNumber(((this.pdfData.price+ this.pdfData.price * 0.06625).toFixed(2)/2));
+      this.halfPrice = '$' + formatNumber(((this.pdfData.price + this.pdfData.price * 0.06625) / 2).toFixed(2));
     }
 
+    if (this.pdfData.options) {
+      this.estimate = {
+        content: [{ image: logo.data, width: 200, margin: [0, 50, 0, 0] },
+        { text: 'Estimate', bold: true, margin: [390, -60, 0, 0], alignment: 'center', fontSize: 24 },
+        {
+          bold: true, alignment: 'right', margin: [390, 0, 0, -80], stack: [{
+            alignment: 'center', table: {
+              body: [
+                [{ text: 'Date', style: 'tableHeader' }, { text: 'Estimate #', style: 'tableHeader' }],
+                [this.pdfData.date, this.pdfData.number]
+              ]
+            }
+          }]
+        },
+        {
+          alignment: 'center', margin: [0, 100, 0, 0], stack: [{
+            table: {
+              widths: ['*', '*'], body: [
+                [{ text: 'SERVICE PROVIDER', style: 'tableHeader' }, { text: 'CUSTOMER', style: 'tableHeader' }],
+                [{
+                  type: 'none', style: 'tableBody', ul: [
+                    'Jecche Steel • Glass • Aluminum LLC',
+                    '829 Broadway Avenue',
+                    'Newark, NJ 07104',
+                    'Cell: (973) 368-3248',
+                    'Email: jecchellc@yahoo.com',
+                    'Web: www.jecche.com'
+                  ]
+                }, {
+                  type: 'none', style: 'tableBody', ul: [
+                    this.pdfData.customer
+                  ]
+                }]]
+            }
+          }]
+        },
+        {
+          fontSize: 10, alignment: 'left', margin: [0, 10, 0, 0], table: {
+            widths: ['*', '*', '*', '*'], body: [
+              [{ text: 'SUMMARY OF SERVICES', style: 'tableHeader', colSpan: 4 }, {}, {}, {}],
+              [{
+                ul: [
+                  { text: 'General Welding', listType: this.pdfData.services.generalWelding ? 'dot' : 'circle' },
+                  { text: 'General Repair', listType: this.pdfData.services.generalRepair ? 'dot' : 'circle' },
+                  { text: 'Basement Door', listType: this.pdfData.services.basementDoor ? 'dot' : 'circle' },
+                ]
+              }, {
+                ul: [
+                  { text: 'Fire Escapes', listType: this.pdfData.services.fireEscapes ? 'dot' : 'circle' },
+                  { text: 'Awnings', listType: this.pdfData.services.awnings ? 'dot' : 'circle' },
+                  { text: 'Railings', listType: this.pdfData.services.railings ? 'dot' : 'circle' }
+                ]
+              }, {
+                ul: [
+                  { text: 'Fences', listType: this.pdfData.services.fences ? 'dot' : 'circle' },
+                  { text: 'Stairs', listType: this.pdfData.services.stairs ? 'dot' : 'circle' },
+                  { text: 'Gates', listType: this.pdfData.services.gates ? 'dot' : 'circle' }
+                ]
+              }, {
+                ul: [
+                  { text: 'Security Door', listType: this.pdfData.services.securityDoor ? 'dot' : 'circle' },
+                  { text: 'Window Guards', listType: this.pdfData.services.windowGuards ? 'dot' : 'circle' },
+                  { text: 'Other Services', listType: this.pdfData.services.otherServices ? 'dot' : 'circle' }
+                ]
+              }]]
+          }
+        },
+
+        { alignment: 'left', margin: [0, 10, 0, 0], table: {
+        heights: ['', 340, 30, 30, 30], widths: [250, 120, '*'], body: [
+          [{ text: 'DESCRIPTION', style: 'tableHeader' }, { text: 'WORKSITE', style: 'tableHeader' }, { text: 'TOTAL', style: 'tableHeader' }],
+
+            [{
+              type: 'none', ul: [
+                { text: 'Service of:', margin: [0, 0, 0, 10], },
+                { text: this.pdfData.description, style: 'tableBody' },
+                { text: this.pdfData.note, fontSize: 8, margin: [0, 40, 0, 0], },
+              ]
+            },
+            { text: this.pdfData.worksite, alignment: 'center', fontSize: 10 }, {
+              type: 'none', ul: [
+                { text: '$2,180.00 + tax', margin: [0, 30, 0, 0], style: 'price' },
+                { text: '$4,380.00 + tax', margin: [0, 50, 0, 0], style: 'price' },
+                { text: '$4,950.00 + tax', margin: [0, 20, 0, 0], style: 'price' },
+                // { text: '$440.00 + tax', margin: [0, 20, 0, 0], style: 'price' },
+                // { text: '$3,500.00 + tax', margin: [0, 20, 0, 0], style: 'price' },
+                // { text: '$1,820.00 + tax', margin: [0, 20, 0, 0], style: 'price' },
+                // { text: '$3,040.00 + tax', margin: [0, 20, 0, 0], style: 'price' },
+                // { text: '$3,115.00 + tax', margin: [0, 20, 0, 0], style: 'price' },
+              ]
+            }],
+            ]
+          }
+        },
+        {
+          margin: [0, 30, 0, 0], table: {
+            widths: ['*'], body: [
+              [{ text: 'NOTE', style: 'tableHeader' }],
+              [{ text: 'This proposal is valid for 15 days following the date above. Estimated completion date is within 2 to 3 weeks from the date the contract is signed (possibility of delay due to unforeseen circumstances and interferences). A down payment is required when signing the contract (maximum of 3 days for a late payment if not given at signing). Down payment will be 50% of the total price and is non-refundable. The remaining 50% must be given once the service is complete. Any unforeseen or unnegotiated addition of work will be documented and may increase the total price. Please note that all items ordered in iron will rust.', fontSize: 7, alignment: 'center' }]]
+          }
+        },
+          tagOne,
+          imageOne,
+          tagTwo,
+          imageTwo,
+          tagThree,
+          imageThree,
+          tagFour,
+          imageFour,
+          tagFive,
+          imageFive,
+          tagSix,
+          imageSix
+        ],
+        styles: {
+          tableHeader: { fillColor: '#dddddd', alignment: 'center', fontSize: 10, bold: true },
+          tableBody: { fontSize: 10 },
+          price: { bold: true, alignment: 'center', margin: [-10, 6, 0, 0] },
+        }
+      };
+    } else {
     this.estimate = {
       content: [{image:logo.data, width: 200, margin: [0, 50, 0, 0]}, 
       {text: 'Estimate', bold: true, margin: [390, -60, 0, 0], alignment: 'center', fontSize: 24},
@@ -118,7 +254,7 @@ export class GeneratePdfComponent implements OnInit {
           'Jecche Steel • Glass • Aluminum LLC',
           '829 Broadway Avenue',
           'Newark, NJ 07104',
-          'Phone: (862) 234-1559 Cell: (973) 368-3248',
+          'Cell: (973) 368-3248',
           'Email: jecchellc@yahoo.com',
           'Web: www.jecche.com'
           ]}, {type: 'none',  style: 'tableBody', ul: [
@@ -152,11 +288,17 @@ export class GeneratePdfComponent implements OnInit {
             ]},
             {text: this.pdfData.worksite, alignment: 'center', fontSize: 10}, { type: 'none', ul: [
           {text: this.subtotalPrice, style: 'price'},
+              // { text: '$2,800.00', margin: [0, 20, 0, 0], style: 'price' },
+              // { text: '$3,240.00', margin: [0, 40, 0, 0], style: 'price' },
         ]}],
         [{border: [false, false, false, false], text: ''},
           {text: 'Subotal', style: 'price'},
           {type: 'none', ul: [
           {text: this.subtotalPrice, style: 'price'},
+
+          
+
+
         ]}],
       [{border: [false, false, false, false], fontSize: 9, bold: true, text: 'Address for payments by check and other documents:'},
           {text: 'Tax 6.625%', style: 'price'},
@@ -167,15 +309,24 @@ export class GeneratePdfComponent implements OnInit {
       {text: 'Total', style: 'price'},
       {type: 'none', ul: [
       {text:  this.totalPrice, style: 'price'},
-      ]}]]}},
+      ]}]
+
+      ]}},
       {margin: [0, 30, 0, 0], table: { widths: ['*'], body: [
         [{text: 'NOTE',  style: 'tableHeader'}],
         [{text: 'This proposal is valid for 15 days following the date above. Estimated completion date is within 2 to 3 weeks from the date the contract is signed (possibility of delay due to unforeseen circumstances and interferences). A down payment is required when signing the contract (maximum of 3 days for a late payment if not given at signing). Down payment will be 50% of the total price and is non-refundable. The remaining 50% must be given once the service is complete. Any unforeseen or unnegotiated addition of work will be documented and may increase the total price. Please note that all items ordered in iron will rust.', fontSize: 7, alignment: 'center' }]]}},
         tagOne,
         imageOne,
-        spacer,
         tagTwo,
-        imageTwo
+        imageTwo,
+        tagThree,
+        imageThree,
+        tagFour,
+        imageFour,
+        tagFive,
+        imageFive,
+        tagSix,
+        imageSix
       ],
       styles: {
         tableHeader: {fillColor: '#dddddd', alignment: 'center', fontSize: 10, bold: true },
@@ -183,6 +334,7 @@ export class GeneratePdfComponent implements OnInit {
         price: { bold: true, alignment: 'center', margin: [-10, 6, 0, 0] },
       }
     };
+  }
 
     this.contract = {
       content: [{image:logo.data, width: 200, margin: [0, 50, 0, 0]}, 
@@ -198,7 +350,7 @@ export class GeneratePdfComponent implements OnInit {
           'Jecche Steel • Glass • Aluminum LLC',
           '829 Broadway Avenue',
           'Newark, NJ 07104',
-          'Phone: (862) 234-1559 Cell: (973) 368-3248',
+          'Cell: (973) 368-3248',
           'Email: jecchellc@yahoo.com',
           'Web: www.jecche.com',
           ]}, {type: 'none',  style: 'tableBody', ul: [
@@ -225,7 +377,7 @@ export class GeneratePdfComponent implements OnInit {
       ]}]]}},
       {text: 'SERVICE AGREEMENT', style: 'header' },
       {text: '1. DESCRIPTION OF SERVICES. Beginning on upon agreement to this contract Jecche Steel Glass & Aluminum LLC will provide to ' + this.pdfData.attn + ' the following services:', style: 'paragraph' },
-      { stack: [{ table: { heights: [0, 100], body: [
+      { stack: [{ table: { heights: [0, 80], body: [
         [{text: 'Service of:', fontSize: 10, border: [false, false, false, false]}],
         [{text: this.pdfData.description, style: 'tableBody', margin: [0, 0, 0, 5], border: [false, false, false, false]}]
       ]}}]},
@@ -287,7 +439,7 @@ export class GeneratePdfComponent implements OnInit {
           'Jecche Steel • Glass • Aluminum LLC',
           '829 Broadway Avenue',
           'Newark, NJ 07104',
-          'Phone: (862) 234-1559 Cell: (973) 368-3248',
+          'Cell: (973) 368-3248',
           'Email: jecchellc@yahoo.com',
           'Web: www.jecche.com'
           ]}, {type: 'none',  style: 'tableBody', ul: [
@@ -319,9 +471,17 @@ export class GeneratePdfComponent implements OnInit {
               {text: this.pdfData.description, style: 'tableBody'},
               {text: this.pdfData.note, fontSize: 8, margin: [0, 40, 0, 0], },
             ]},
-            {text: this.pdfData.worksite, alignment: 'center', fontSize: 10}, { type: 'none', ul: [
-          {text: this.subtotalPrice, style: 'price'},
-        ]}],
+            {text: this.pdfData.worksite, alignment: 'center', fontSize: 10}, { type: 'none', 
+            ul: [
+
+              { text: this.subtotalPrice, style: 'price' },
+
+              // { text: '$1,160.00', margin: [0, 20, 0, 0], style: 'price' },
+              // { text: '$1,380.00', margin: [0, 20, 0, 0], style: 'price' },
+              // { text: '$880.00', margin: [0, 20, 0, 0], style: 'price' },
+
+            ]
+      }],
         [{border: [false, false, false, false], text: ''},
           {text: 'Subotal', style: 'price'},
           { type: 'none', ul: [
@@ -336,12 +496,49 @@ export class GeneratePdfComponent implements OnInit {
       {text: 'Total', style: 'price'},
       {type: 'none', ul: [
       {text: this.totalPrice, style: 'price'},
-      ]}]]}},
+      ]}],
+      
+
+      // [{border: [false, false, false, false], text: ''},
+      //     {text: 'Subtotal', style: 'price'},
+      //     { type: 'none', ul: [
+      //     {text: '$1,200.00', style: 'price'},
+      //   ]}],
+      // [{border: [false, false, false, false], fontSize: 10, text: 'Address for payments by check and other documents:'},
+      //     {text: 'Tax 6.625%', style: 'price'},
+      //     { type: 'none', ul: [
+      //     {text: '$79.50', style: 'price'},
+      //   ]}],
+      // [{border: [false, false, false, false], fontSize: 10, bold: true, text: '14 Parkside Dr, Apt 2, Belleville NJ 07109'},
+      // {text: 'Total', style: 'price'},
+      // {type: 'none', ul: [
+      // {text: '$1,279.50', style: 'price'},
+      // ]}],
+      // [{border: [false, false, false, false], fontSize: 10, bold: true, text: ''},
+      // {text: 'Down Payment', style: 'price'},
+      // {type: 'none', ul: [
+      // {text: '$600.00', style: 'price'},
+      // ]}],
+      // [{border: [false, false, false, false], fontSize: 10, bold: true, text: ''},
+      // {text: 'Final Payment', style: 'price'},
+      // {type: 'none', ul: [
+      // {text: '$679.50', style: 'price'},
+      // ]}],
+
+       
+    ]}},
       tagOne,
       imageOne,
-      spacer,
       tagTwo,
-      imageTwo
+      imageTwo,
+      tagThree,
+      imageThree,
+      tagFour,
+      imageFour,
+      tagFive,
+      imageFive,
+      tagSix,
+      imageSix
       ],
       styles: {
         tableHeader: {fillColor: '#dddddd', alignment: 'center', fontSize: 10, bold: true },

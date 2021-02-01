@@ -1,10 +1,9 @@
 import { Component, OnInit, OnDestroy  } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
-import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 import { Customer } from '../../shared/customer.model';
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
@@ -23,7 +22,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 })
 export class DocumentEditComponent implements OnInit, OnDestroy {
 
-  private userSub: Subscription; 
+  // private userSub: Subscription; 
 
   url: string;
   attn: string;
@@ -79,19 +78,20 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
       .subscribe((customers: Customer[]) => {
         this.customers = customers;
       });
-     
       this.attn = this.documentForm.value.attn;
       this.pdfData = this.documentForm.value;
     });
+
+    this.documentForm.valueChanges.subscribe(console.log);
     
-    this.onChanges();
+    // this.onChanges();
   }
 
-  onChanges(): void {
-    this.documentForm.valueChanges.subscribe(val => {
-      this.pdfData = this.documentForm.value;
-    });
-  }
+  // onChanges(): void {
+  //   this.documentForm.valueChanges.subscribe(val => {
+  //     this.pdfData = this.documentForm.value;
+  //   });
+  // }
 
   onSubmit() {
     // event.preventDefault();
@@ -173,6 +173,7 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
     let documentNote = 'Estimate time for project completion 4 to 6 weeks';
     let documentPrice = 0;
     let documentTax = false;
+    let documentOptions = false;
     let documentImage = '';
 
     let documentThings = new FormArray([]);
@@ -205,6 +206,7 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
         documentNote = document.note;
         documentPrice = document.price;
         documentTax = document.tax;
+        documentOptions = document.options;
         documentImage = document.image;
         if (document['things']) {
           for (let thing of document.things) {
@@ -212,6 +214,8 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
           }
         }
       });
+
+      console.log(documentNumber);
     }
 
     this.documentForm = new FormGroup({
@@ -240,6 +244,7 @@ export class DocumentEditComponent implements OnInit, OnDestroy {
       note: new FormControl(documentNote, Validators.required),
       price: new FormControl(documentPrice, Validators.required),
       tax: new FormControl(documentTax, Validators.required),
+      options: new FormControl(documentOptions, Validators.required),
       image: new FormControl(documentImage, Validators.required),
 
       things: documentThings

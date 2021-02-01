@@ -28,6 +28,7 @@ export class Document {
   public note: string;
   public price: number;
   public tax: boolean;
+  public options: boolean;
   public image: string;
 
   public customers: Customer[];
@@ -64,6 +65,7 @@ export class Document {
     note: string,
     price: number,
     tax: boolean,
+    options: boolean,
     image: string,
 
     customers: Customer[],
@@ -97,6 +99,7 @@ export class Document {
     this.note = note;
     this.price = price;
     this.tax = tax;
+    this.options = options;
     this.image = image;
 
     this.customers = customers;
